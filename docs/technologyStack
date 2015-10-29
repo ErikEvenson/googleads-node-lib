@@ -1,0 +1,44 @@
+# Technology stack
+These are the technologies used in this project.
+
+## bash-installed
+
+## npm-installed
+Global:
+- [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
+- [npm](https://www.npmjs.com/package/npm) 2.13.4 - a package manager for JavaScript.
+
+Local:
+- [async](https://www.npmjs.com/package/async) 1.5.0 - Higher-order functions and common patterns for asynchronous code
+- [debug](https://www.npmjs.com/package/debug) 2.2.0 - tiny node.js debugging utility modelled after node core's debugging technique
+- [lodash](https://www.npmjs.com/package/lodash) 3.10.1 - The modern build of lodash modular utilities
+- [soap](https://www.npmjs.com/package/soap) 0.10.3 - A minimal node SOAP client.
+- [uuid](https://www.npmjs.com/package/uuid) 2.0.1 - Rigorous implementation of RFC4122 (v1 and v4) UUIDs.
+
+Local (dev):
+- [chai](https://www.npmjs.com/package/chai) 3.4.0 - BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
+- [del](https://www.npmjs.com/package/del) 2.0.2
+- [dotenv](https://www.npmjs.com/package/dotenv) 1.2.0 - Loads environment variables from .env file
+- [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
+- [gulp-help](https://www.npmjs.com/package/gulp-help) 1.6.1 - Adds a default help task to gulp and provides the ability to add custom help messages to your gulp tasks.
+- [gulp-install](https://www.npmjs.com/package/gulp-install) 0.6.0 - Automatically install npm and bower packages if package.json or bower.json is found in the gulp file stream respectively
+- [gulp-istanbul]() 0.10.2 -
+- [gulp-jshint](https://www.npmjs.com/package/gulp-jshint) 1.12.0 - JSHint plugin for gulp
+- [gulp-mocha](https://www.npmjs.com/package/gulp-mocha) 2.1.3 - Run Mocha tests
+- [gulp-newer](https://www.npmjs.com/package/gulp-newer) 1.0.0 - Only pass through newer source files
+- [gulp-rename]() 1.2.2 -
+- [gulp-replace]() 0.5.4 -
+- [should](https://www.npmjs.com/package/should) 7.1.1 - test framework agnostic BDD-style assertions
+- [sinon](https://www.npmjs.com/package/sinon) 1.17.2 - JavaScript test spies, stubs and mocks.
+- [soap](https://www.npmjs.com/package/soap) 0.10.3 - A minimal node SOAP client.
+- [supertest](https://www.npmjs.com/package/supertest) 1.1.0 - Super-agent driven library for testing HTTP servers
+- [yargs](https://www.npmjs.com/package/yargs) 3.29.0 - Light-weight option parsing with an argv hash. No optstrings attached.
+
+## packer-installed (bash)
+- [node](https://nodejs.org/) 4.1.0 - Node.js® is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.
+
+## services
+- [Google AdWords]()
+- [Google Search Console]()
+
+## Installed on host
