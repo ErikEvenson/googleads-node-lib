@@ -21,7 +21,7 @@ var beeper = function(file, cb) {
 };
 
 var jsLintFiles = [
-  '../*.js',
+  './**/*.js',
 
   // Don't lint bower components
   '!**/bower_components/**/*',
