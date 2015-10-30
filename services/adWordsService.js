@@ -191,7 +191,7 @@ function AdWordsService(options) {
   self.soapHeader = {
     RequestHeader: {
       developerToken: process.env.ADWORDS_DEVELOPER_TOKEN,
-      userAgent: 'CallDrive',
+      userAgent: process.env.ADWORDS_USER_AGENT,
       clientCustomerId: process.env.ADWORDS_CLIENT_CUSTOMER_ID,
       validateOnly: self.options.validateOnly
     }
