@@ -1,3 +1,3 @@
 module.exports = {
-  ManagedCustomerService: require('service/managedCustomerService')
+  ManagedCustomerService: require('./services/managedCustomerService')
 };

@@ -6,8 +6,8 @@ var
   soap = require('soap'),
   utils = require('./utils');
 
-var Service = require('../services/managedCustomerService');
-var Model = require('../types/managedCustomer').model;
+var AdWords = require('..');
+var Service = AdWords.ManagedCustomerService;
 var Selector = require('../types/selector').model;
 
 gulp.task(
