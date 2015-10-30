@@ -10,8 +10,10 @@ Global:
 
 Local:
 - [async](https://www.npmjs.com/package/async) 1.5.0 - Higher-order functions and common patterns for asynchronous code
+- [backbone](https://www.npmjs.com/package/backbone) 1.2.3 - Give your JS App some Backbone with Models, Views, Collections, and Events.
 - [debug](https://www.npmjs.com/package/debug) 2.2.0 - tiny node.js debugging utility modelled after node core's debugging technique
 - [lodash](https://www.npmjs.com/package/lodash) 3.10.1 - The modern build of lodash modular utilities
+- [request]() 2.65.0 - 'Simplified HTTP request client.'
 - [soap](https://www.npmjs.com/package/soap) 0.10.3 - A minimal node SOAP client.
 - [uuid](https://www.npmjs.com/package/uuid) 2.0.1 - Rigorous implementation of RFC4122 (v1 and v4) UUIDs.
 
@@ -22,12 +24,13 @@ Local (dev):
 - [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
 - [gulp-help](https://www.npmjs.com/package/gulp-help) 1.6.1 - Adds a default help task to gulp and provides the ability to add custom help messages to your gulp tasks.
 - [gulp-install](https://www.npmjs.com/package/gulp-install) 0.6.0 - Automatically install npm and bower packages if package.json or bower.json is found in the gulp file stream respectively
-- [gulp-istanbul]() 0.10.2 -
+- [gulp-istanbul](https://www.npmjs.com/package/gulp-istanbul) 0.10.2 - Istanbul unit test coverage plugin for gulp.
 - [gulp-jshint](https://www.npmjs.com/package/gulp-jshint) 1.12.0 - JSHint plugin for gulp
 - [gulp-mocha](https://www.npmjs.com/package/gulp-mocha) 2.1.3 - Run Mocha tests
 - [gulp-newer](https://www.npmjs.com/package/gulp-newer) 1.0.0 - Only pass through newer source files
-- [gulp-rename]() 1.2.2 -
-- [gulp-replace]() 0.5.4 -
+- [gulp-rename](https://www.npmjs.com/package/gulp-rename) 1.2.2 - Rename files.
+- [gulp-replace](https://www.npmjs.com/package/gulp-replace) 0.5.4 - A string replace plugin for gulp.
+- [pretty-data](https://www.npmjs.com/package/pretty-data) 0.40.0 - plugin to pretty-print or minify XML, JSON, CSS and SQL files.
 - [should](https://www.npmjs.com/package/should) 7.1.1 - test framework agnostic BDD-style assertions
 - [sinon](https://www.npmjs.com/package/sinon) 1.17.2 - JavaScript test spies, stubs and mocks.
 - [soap](https://www.npmjs.com/package/soap) 0.10.3 - A minimal node SOAP client.
