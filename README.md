@@ -12,3 +12,6 @@ The library gets credentials via environment variables which are either present 
 
 ## Using the library
 Until some documentation is written, examples of using the library are available in the gulp tasks.
+
+## AdWords services implemented
+- ManagedCustomerService

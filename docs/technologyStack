@@ -13,7 +13,7 @@ Local:
 - [backbone](https://www.npmjs.com/package/backbone) 1.2.3 - Give your JS App some Backbone with Models, Views, Collections, and Events.
 - [debug](https://www.npmjs.com/package/debug) 2.2.0 - tiny node.js debugging utility modelled after node core's debugging technique
 - [lodash](https://www.npmjs.com/package/lodash) 3.10.1 - The modern build of lodash modular utilities
-- [request]() 2.65.0 - 'Simplified HTTP request client.'
+- [request]() 2.65.0 - Simplified HTTP request client.
 - [soap](https://www.npmjs.com/package/soap) 0.10.3 - A minimal node SOAP client.
 - [uuid](https://www.npmjs.com/package/uuid) 2.0.1 - Rigorous implementation of RFC4122 (v1 and v4) UUIDs.
 
@@ -38,7 +38,7 @@ Local (dev):
 - [yargs](https://www.npmjs.com/package/yargs) 3.29.0 - Light-weight option parsing with an argv hash. No optstrings attached.
 
 ## packer-installed (bash)
-- [node](https://nodejs.org/) 4.1.0 - Node.js® is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.
+- [node](https://nodejs.org/) 4.1.0 - Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.
 
 ## services
 - [Google AdWords]()
