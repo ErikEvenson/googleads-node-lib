@@ -3,94 +3,34 @@ var
   argv = require('yargs').argv,
   async = require('async'),
   gulp = require('gulp'),
-  soap = require('soap'),
-  utils = require('./utils');
-
-var AdWords = require('..');
-var Service = AdWords.ManagedCustomerService;
-var Selector = require('../types/selector').model;
+  pd = require('pretty-data').pd,
+  soap = require('soap');
 
 gulp.task(
   'adWords:managedCustomerService:get',
   'gets Google AdWords managed customer accounts',
   function(cb) {
-    var service = new Service();
-    var clientCustomerId = argv.clientCustomerId;
+    var AdWords = require('..');
+    var service = new AdWords.ManagedCustomerService();
+    var clientCustomerId = process.env.ADWORDS_CLIENT_CUSTOMER_ID;
 
-    if (!clientCustomerId) {
-      clientCustomerId = process.env.ADWORDS_CLIENT_CUSTOMER_ID;
-    }
-
-    var predicates = [];
-
-    var selector = new Selector({
-      dateRange: {
-        min: '19700101',
-        max: '20380101'
-      },
-
+    var selector = new AdWords.Selector.model({
+      dateRange: {min: '19700101', max: '20380101'},
       fields: service.selectable,
-
-      ordering: [{
-        field: 'Name',
-        sortOrder: 'ASCENDING'
-      }],
-
-      paging: {
-        startIndex: 0,
-        numberResults: 100
-      },
-
-      predicates: predicates
+      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
+      paging: {startIndex: 0, numberResults: 100},
+      predicates: []
     });
 
-    if (argv.name) {
-      selector.predicates.push({
-        field: 'Name',
-        operator: 'CONTAINS_IGNORE_CASE',
-        values: [argv.name]
-      });
-    }
-
-    service
-      .get(clientCustomerId, selector, function(err, rval, lastRequest) {
-        if (!err && argv.excludeHiddenAccounts) {
-          var customerIds = rval.links
-            .chain()
-            .reject(function(link) {
-              return link.get('isHidden');
-            })
-            .map(function(link) {
-              return link.get('clientCustomerId');
-            })
-            .value();
-
-          predicates.push({
-            field: 'CustomerId',
-            operator: 'IN',
-            values: customerIds
-          });
-
-          selector.set('predicates', predicates);
-
-          service
-            .get(clientCustomerId, selector, function(err, rval, lastRequest) {
-              utils.handleSoapResponse(err, rval, lastRequest);
-              return cb(null, rval);
-            });
-        } else {
-          utils.handleSoapResponse(err, rval, lastRequest);
-          return cb(null, rval);
-        }
-      });
-  },
-  {
-    options: {
-      'clientCustomerId':
-        'clientCustomerId (default=CallDrive MCC) of account',
-      'excludeHiddenAccounts': 'exclude hidden accounts',
-      'name':
-        'search for accounts with name (contains case insensitive)'
-    }
+    service.get(clientCustomerId, selector, function(err, rval, lastRequest) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('REQUEST:');
+        console.log(pd.xml(lastRequest));
+        console.log('\nRESPONSE:');
+        console.log(JSON.stringify(rval, null, 2));
+      }
+    });
   }
 );
