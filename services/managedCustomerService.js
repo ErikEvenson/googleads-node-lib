@@ -27,67 +27,6 @@ function Service(options) {
     return {serviceSelector: selector.toJSON()};
   };
 
-  // self.getPendingInvitations = function(
-  //   clientCustomerId, managerCustomerIds, clientCustomerIds, done) {
-  //   self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
-  //
-  //   async.waterfall([
-  //     // Get an active access token...
-  //     function(cb) {
-  //       self.refresh(cb);
-  //     },
-  //     // Create a SOAP client...
-  //     function(credentials, cb) {
-  //       self.accessToken = credentials.access_token;
-  //       soap.createClient(self.wsdlUrl, cb);
-  //     },
-  //     // Request AdWords data...
-  //     function(adWordsClient, cb) {
-  //       self.client = adWordsClient;
-  //
-  //       self.client.addSoapHeader(
-  //         self.soapHeader, self.name, self.namespace, self.xmlns
-  //       );
-  //
-  //       self.client.setSecurity(new soap.BearerSecurity(self.accessToken));
-  //
-  //       self.client.getPendingInvitations(
-  //         {
-  //           clientCustomerIds: clientCustomerIds,
-  //           managerCustomerIds: managerCustomerIds
-  //         },
-  //         function(err, rval) {
-  //           cb(err, rval, self.client.lastRequest);
-  //         }
-  //       );
-  //     }
-  //   ], done);
-  // };
-  //
-  // self.mutateAdd = function(clientCustomerId, operand, done) {
-  //   var operations = [{'cm:operator': 'ADD', operand: operand.toJSON()}];
-  //   self.mutate(clientCustomerId, operations, 'mutate', done);
-  // };
-  //
-  // self.mutateRemove = function(clientCustomerId, operand, done) {
-  //   var operations = [{'cm:operator': 'REMOVE', operand: operand.toJSON()}];
-  //   self.mutate(clientCustomerId, operations, 'mutate', done);
-  // };
-  //
-  // self.mutateSet = function(clientCustomerId, operand, done) {
-  //   var operations = [{'cm:operator': 'SET', operand: operand.toJSON()}];
-  //   self.mutate(clientCustomerId, operations, 'mutate', done);
-  // };
-  //
-  // self.mutateLabel = 'TBD';
-  //
-  // self.mutateLinkSet = function(clientCustomerId, operand, done) {
-  //   var operations = [{'cm:operator': 'SET', operand: operand.toJSON()}];
-  //   self.mutate(clientCustomerId, operations, 'mutateLink', done);
-  // };
-  //
-  // self.mutateManager = 'TBD';
-
   self.parseGetRval = function(rval) {
     return {
       totalNumEntries: rval.rval.totalNumEntries,
@@ -95,12 +34,6 @@ function Service(options) {
       links: new self.managedCustomerLinkCollection(rval.rval.links)
     };
   };
-
-  // self.parseMutateRval = function(rval) {
-  //   return {
-  //     collection: new self.Collection(rval.rval.value)
-  //   };
-  // };
 
   self.selectable = [
     'AccountLabels',
