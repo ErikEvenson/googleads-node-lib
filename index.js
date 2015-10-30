@@ -1,3 +1,3 @@
-exports.printMsg = function() {
-  console.log("UNDER DEVELOPMENT");
-}
+module.exports = {
+  ManagedCustomerService: require('service/managedCustomerService');
+};
