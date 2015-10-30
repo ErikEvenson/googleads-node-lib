@@ -22,6 +22,8 @@ Local (dev):
 - [del](https://www.npmjs.com/package/del) 2.0.2
 - [dotenv](https://www.npmjs.com/package/dotenv) 1.2.0 - Loads environment variables from .env file
 - [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
+- [gulp-cached](https://www.npmjs.com/package/gulp-cached) 1.1.0 - A simple in-memory file cache for gulp
+- [gulp-gjslint](https://www.npmjs.com/package/gulp-gjslint) 0.1.5 - Gulp task for running gjslint, the Google Closure linter
 - [gulp-help](https://www.npmjs.com/package/gulp-help) 1.6.1 - Adds a default help task to gulp and provides the ability to add custom help messages to your gulp tasks.
 - [gulp-install](https://www.npmjs.com/package/gulp-install) 0.6.0 - Automatically install npm and bower packages if package.json or bower.json is found in the gulp file stream respectively
 - [gulp-istanbul](https://www.npmjs.com/package/gulp-istanbul) 0.10.2 - Istanbul unit test coverage plugin for gulp.
@@ -30,6 +32,7 @@ Local (dev):
 - [gulp-newer](https://www.npmjs.com/package/gulp-newer) 1.0.0 - Only pass through newer source files
 - [gulp-rename](https://www.npmjs.com/package/gulp-rename) 1.2.2 - Rename files.
 - [gulp-replace](https://www.npmjs.com/package/gulp-replace) 0.5.4 - A string replace plugin for gulp.
+- [map-stream](https://www.npmjs.com/package/map-stream) 0.0.6 - construct pipes of streams of events
 - [pretty-data](https://www.npmjs.com/package/pretty-data) 0.40.0 - plugin to pretty-print or minify XML, JSON, CSS and SQL files.
 - [should](https://www.npmjs.com/package/should) 7.1.1 - test framework agnostic BDD-style assertions
 - [sinon](https://www.npmjs.com/package/sinon) 1.17.2 - JavaScript test spies, stubs and mocks.
