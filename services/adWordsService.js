@@ -8,6 +8,7 @@ var
 // define abstract AdWords service
 function AdWordsService(options) {
   var self = this;
+
   // set up rational defaults
   if (!options) options = {};
 
@@ -30,16 +31,14 @@ function AdWordsService(options) {
     !options.ADWORDS_SECRET ||
     !options.ADWORDS_USER_AGENT
   ) {
-    throw(new Error('googleads-node-lib not configured correctly'));
-    return null;
+    throw (new Error('googleads-node-lib not configured correctly'));
   }
 
   self.options = options;
-  self.accessToken = null;
   self.client = null;
+  self.credentials = null;
   self.name = '';
   self.namespace = 'ns1';
-
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
 
   self.formGetRequest = function(selector) {
@@ -51,13 +50,17 @@ function AdWordsService(options) {
 
     async.waterfall([
       // Get an active access token...
-      function(cb) {
-        self.refresh(cb);
-      },
+      function(cb) {self.refresh(cb);},
       // Create a SOAP client...
-      function(credentials, cb) {
-        self.accessToken = credentials.access_token;
-        soap.createClient(self.wsdlUrl, cb);
+      function(cb) {
+        if (self.client) {
+          // behave async
+          setTimeout(function() {cb(null, self.client);}, 0);
+          return;
+        } else {
+          soap.createClient(self.wsdlUrl, cb);
+          return;
+        }
       },
       // Request AdWords data...
       function(adWordsClient, cb) {
@@ -67,7 +70,9 @@ function AdWordsService(options) {
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
 
-        self.client.setSecurity(new soap.BearerSecurity(self.accessToken));
+        self.client.setSecurity(
+          new soap.BearerSecurity(self.credentials.access_token)
+        );
 
         self.client.get(
           self.formGetRequest(selector),
@@ -105,24 +110,40 @@ function AdWordsService(options) {
   };
 
   self.refresh = function(done) {
-    var qs = {
-      refresh_token: self.options.ADWORDS_REFRESH_TOKEN,
-      client_id: self.options.ADWORDS_CLIENT_ID,
-      client_secret: self.options.ADWORDS_SECRET,
-      grant_type: 'refresh_token'
-    };
+    // check if current credentials haven't expired
+    if (self.credentials && Date.now() < self.credentials.expires) {
+      // behave like an async
+      setTimeout(function() {done(null);}, 0);
+      return;
+    } else {
+      // throw away cached client
+      self.client = null;
 
-    request.post(
-      {
-        qs: qs,
-        url: self.tokenUrl
-      },
-      function(error, response, body) {
-        credentials = JSON.parse(body);
-        credentials.issuedAt = Date.now();
-        return done(error, credentials);
-      }
-    );
+      var qs = {
+        refresh_token: self.options.ADWORDS_REFRESH_TOKEN,
+        client_id: self.options.ADWORDS_CLIENT_ID,
+        client_secret: self.options.ADWORDS_SECRET,
+        grant_type: 'refresh_token'
+      };
+
+      request.post(
+        {
+          qs: qs,
+          url: self.tokenUrl
+        },
+        function(error, response, body) {
+          self.credentials = JSON.parse(body);
+          self.credentials.issued = Date.now();
+
+          self.credentials.expires = self.credentials.issued -
+            self.credentials.expires_in;
+
+          done(error);
+        }
+      );
+
+      return;
+    }
   };
 
   self.soapHeader = {
