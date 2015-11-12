@@ -10,11 +10,18 @@ gulp.task(
   'gets Google AdWords managed customer accounts',
   function(cb) {
     var argv = require('yargs')
+      .default(
+        'clientCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
       .argv;
 
     var AdWords = require('..');
-    var service = new AdWords.ManagedCustomerService();
-    var clientCustomerId = process.env.ADWORDS_CLIENT_CUSTOMER_ID;
+
+    var service = new AdWords.ManagedCustomerService({
+      validateOnly: argv.validateOnly
+    });
 
     var selector = new AdWords.Selector.model({
       dateRange: {min: '19700101', max: '20380101'},
@@ -24,7 +31,7 @@ gulp.task(
       predicates: []
     });
 
-    service.get(clientCustomerId, selector, function(err, results) {
+    service.get(argv.clientCustomerId, selector, function(err, results) {
       if (err) {
         console.log(err);
       } else {
@@ -61,20 +68,59 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService({
-      // validateOnly: argv.validateOnly
+      validateOnly: argv.validateOnly
     });
 
-    var clientCustomerId = argv.clientCustomerId;
-    var Model = service.Model;
-
-    var operand = new Model({
+    var operand = new service.Model({
       name: argv.name || null,
       currencyCode: argv.currencyCode || 'USD',
       dateTimeZone: argv.dateTimeZone || 'America/Chicago'
     });
 
     service.mutateAdd(
-      clientCustomerId,
+      argv.clientCustomerId,
+      operand,
+      function(err, results) {
+        if (err) console.log(err);
+        else console.log(JSON.stringify(results, null, 2));
+        cb(err);
+      }
+    );
+  }
+);
+
+gulp.task(
+  'adwords:managedCustomerService:mutateLinkSet',
+  'adds Google AdWords account',
+  function(cb) {
+    var argv = require('yargs')
+      .boolean('validateOnly')
+      .default(
+        'managerCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
+      .default('validateOnly', false, 'validate only')
+      .demand(
+        'clientCustomerId',
+        'clientCustomerId of account to set link on'
+      )
+      .argv;
+
+    var AdWords = require('..');
+
+    var service = new AdWords.ManagedCustomerService({
+      validateOnly: argv.validateOnly
+    });
+
+    var operand = new service.ManagedCustomerLink({
+      clientCustomerId: argv.clientCustomerId,
+      isHidden: true,
+      managerCustomerId: argv.managerCustomerId
+    });
+
+    service.mutateLinkSet(
+      argv.clientCustomerId,
       operand,
       function(err, results) {
         if (err) console.log(err);

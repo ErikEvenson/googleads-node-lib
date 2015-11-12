@@ -90,8 +90,12 @@ function AdWordsService(options) {
     });
   };
 
-  self.mutate = function(clientCustomerId, operations, mutateMethod, done) {
-    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
+  self.mutate = function(options, done) {
+    _.defaults(options, {
+      parseMethod: self.parseMutateRval
+    });
+
+    self.soapHeader.RequestHeader.clientCustomerId = options.clientCustomerId;
 
     async.waterfall([
       // get client
@@ -106,18 +110,22 @@ function AdWordsService(options) {
           new soap.BearerSecurity(self.credentials.access_token)
         );
 
-        self.client[mutateMethod]({operations: operations}, cb);
+        self.client[options.mutateMethod]({operations: options.operations}, cb);
       }
     ],
     function(err, response) {
-      return done(err, self.parseMutateRval(response));
+      return done(err, options.parseMethod(response));
     });
   };
 
   self.mutateAdd = function(clientCustomerId, operand, done) {
-    // why the cm?
-    var operations = [{'cm:operator': 'ADD', operand: operand.toJSON()}];
-    self.mutate(clientCustomerId, operations, 'mutate', done);
+    var options = {
+      clientCustomerId: clientCustomerId,
+      mutateMethod: 'mutate',
+      operations: [{operator: 'ADD', operand: operand.toJSON()}]
+    };
+
+    self.mutate(options, done);
   };
 
   self.parseGetRval = function(response) {
@@ -134,10 +142,14 @@ function AdWordsService(options) {
         collection: new self.Collection([])
       };
     } else {
-      return {
-        partialFailureErrors: response.rval.partialFailureErrors,
-        collection: new self.Collection(response.rval.value)
-      };
+      if (response.rval) {
+        return {
+          partialFailureErrors: response.rval.partialFailureErrors,
+          collection: new self.Collection(response.rval.value)
+        };
+      } else {
+        return {};
+      }
     }
   };
 

@@ -63,13 +63,17 @@ Failure to provide credentials will cause the library to throw a configuration e
 In addition to this growing collection of examples, you will find other examples in the gulp tasks.
 
 ### ManagedCustomerService
-Getting your managed customers:
+Setting up the ManagedCustomerService:
 
 ```javascript
 var AdWords = require('googleads-node-lib');
 var service = new AdWords.ManagedCustomerService();
 var clientCustomerId = 'the client customer ID you are interested in';
+```
 
+Getting your managed customers:
+
+```javascript
 var selector = new AdWords.Selector.model({
   dateRange: {min: '19700101', max: '20380101'},
   fields: service.selectable,
@@ -87,12 +91,7 @@ service.get(clientCustomerId, selector, function(err, results) {
 Adding a managed customer:
 
 ```javascript
-var AdWords = require('googleads-node-lib');
-var service = new AdWords.ManagedCustomerService();
-var clientCustomerId = 'the client customer ID you are interested in';
-var Model = service.Model;
-
-var operand = new Model({
+var operand = new service.Model({
   name: 'the name of the customer',
   currencyCode: 'USD',
   dateTimeZone: 'America/Chicago'
@@ -108,7 +107,30 @@ service.mutateAdd(
 );
 ```
 
-# Changelog
-## 0.0.7
+Hiding a managed customer:
+
+```javascript
+var operand = new service.ManagedCustomerLink({
+  clientCustomerId: clientCustomerId,
+  isHidden: true,
+  managerCustomerId: managerCustomerId
+});
+
+service.mutateLinkSet(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+    cb(err);
+  }
+);
+```
+
+## Changelog
+### 0.0.8
+- add `mutateLink` for `ManagedCustomerService`
+
+### 0.0.7
 - caches service clients and credentials
 - adds `mutateAdd` for `ManagedCustomerService`
