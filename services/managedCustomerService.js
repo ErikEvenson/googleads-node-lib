@@ -23,32 +23,22 @@ function Service(options) {
   self.ManagedCustomerLinkCollection = links.collection;
   self.ManagedCustomerLink = links.model;
 
-  self.formGetRequest = function(selector) {
-    return {serviceSelector: selector.toJSON()};
-  };
-
-  self.mutateAdd = function(clientCustomerId, operand, done) {
-    // why the cm?
-    var options = {
-      clientCustomerId: clientCustomerId,
-      mutateMethod: 'mutate',
-      operations: [{'cm:operator': 'ADD', operand: operand.toJSON()}]
-    };
-
-    self.mutate(options, done);
-  };
-
   self.mutateLinkSet = function(clientCustomerId, operand, done) {
-    // why the cm?
+    var operation = {};
+    operation[self.operatorKey] = 'SET';
+    operation.operand = operand.toJSON();
+
     var options = {
       clientCustomerId: clientCustomerId,
       mutateMethod: 'mutateLink',
-      operations: [{'cm:operator': 'SET', operand: operand.toJSON()}],
-      parseMethod: self.parseMutateLinkRval
+      operations: [operation]
     };
 
     self.mutate(options, done);
   };
+
+  // why the cm?
+  self.operatorKey = 'cm:operator';
 
   self.parseGetRval = function(response) {
     return {
@@ -87,6 +77,7 @@ function Service(options) {
     'TestAccount'
   ];
 
+  self.selectorKey = 'serviceSelector';
   self.xmlns = 'https://adwords.google.com/api/adwords/mcm/v201506';
   self.wsdlUrl = self.xmlns + '/ManagedCustomerService?wsdl';
 }

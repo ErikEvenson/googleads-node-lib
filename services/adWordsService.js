@@ -39,10 +39,15 @@ function AdWordsService(options) {
   self.credentials = null;
   self.name = '';
   self.namespace = 'ns1';
+  self.operatorKey = 'operator';
+  self.rvalKey = 'value';
+  self.selectorKey = 'selector';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
 
   self.formGetRequest = function(selector) {
-    return {selector: selector.toJSON()};
+    var request = {};
+    request[self.selectorKey] = selector.toJSON();
+    return request;
   };
 
   self.getClient = function(done) {
@@ -119,20 +124,28 @@ function AdWordsService(options) {
   };
 
   self.mutateAdd = function(clientCustomerId, operand, done) {
+    var operation = {};
+    operation[self.operatorKey] = 'ADD';
+    operation.operand = operand.toJSON();
+
     var options = {
       clientCustomerId: clientCustomerId,
       mutateMethod: 'mutate',
-      operations: [{operator: 'ADD', operand: operand.toJSON()}]
+      operations: [operation]
     };
 
     self.mutate(options, done);
   };
 
   self.parseGetRval = function(response) {
-    return {
-      totalNumEntries: response.rval.totalNumEntries,
-      collection: new self.Collection(response.rval.entries)
-    };
+    if (response.rval) {
+      return {
+        totalNumEntries: response.rval.totalNumEntries,
+        collection: new self.Collection(response.rval[self.rvalKey])
+      };
+    } else {
+      return {};
+    }
   };
 
   self.parseMutateRval = function(response) {
@@ -145,7 +158,7 @@ function AdWordsService(options) {
       if (response.rval) {
         return {
           partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval.value)
+          collection: new self.Collection(response.rval[self.rvalKey])
         };
       } else {
         return {};
