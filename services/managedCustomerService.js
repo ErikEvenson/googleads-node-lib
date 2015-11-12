@@ -49,11 +49,23 @@ function Service(options) {
   self.mutateSet = null;
 
   self.parseGetRval = function(response) {
-    return {
-      totalNumEntries: response.rval.totalNumEntries,
-      collection: new self.Collection(response.rval.entries),
-      links: new self.ManagedCustomerLinkCollection(response.rval.links)
-    };
+    if (self.options.validateOnly) {
+      return {
+        totalNumEntries: null,
+        collection: null,
+        links: null
+      };
+    } else {
+      if (response.rval) {
+        return {
+          totalNumEntries: response.rval.totalNumEntries,
+          collection: new self.Collection(response.rval[self.rvalKey]),
+          links: new self.ManagedCustomerLinkCollection(response.rval.links)
+        };
+      } else {
+        return {};
+      }
+    }
   };
 
   self.parseMutateLinkRval = function(response) {
