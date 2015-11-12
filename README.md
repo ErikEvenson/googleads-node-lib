@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.15
+- adds `mutateAdd` to `BudgetService`
+
 ### 0.0.14
 - lints and bugfixes
 

@@ -11,8 +11,6 @@ function Service(options) {
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
-  // self.operatorKey = 'cm:operator';
-  // self.rvalKey = 'labels';
 
   self.selectable = [
     'Amount',
