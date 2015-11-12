@@ -128,6 +128,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.9
+- bugfix
+
 ### 0.0.8
 - add `mutateLink` for `ManagedCustomerService`
 
