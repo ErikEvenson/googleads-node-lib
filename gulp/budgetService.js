@@ -6,8 +6,8 @@ var
   soap = require('soap');
 
 gulp.task(
-  'adWords:campaignService:get',
-  'gets Google AdWords campaign',
+  'adWords:budgetService:get',
+  'gets Google AdWords budgets',
   function(cb) {
     var argv = require('yargs')
       .default(
@@ -20,13 +20,13 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.CampaignService({
+    var service = new AdWords.BudgetService({
       validateOnly: argv.validateOnly
     });
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
-      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
+      ordering: [{field: 'BudgetName', sortOrder: 'ASCENDING'}],
       paging: {startIndex: 0, numberResults: 100},
     });
 

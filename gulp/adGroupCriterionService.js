@@ -6,8 +6,8 @@ var
   soap = require('soap');
 
 gulp.task(
-  'adWords:campaignService:get',
-  'gets Google AdWords campaign',
+  'adWords:adGroupCriterion:get',
+  'gets Google AdWords adGroupCriterion',
   function(cb) {
     var argv = require('yargs')
       .default(
@@ -20,13 +20,12 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.CampaignService({
+    var service = new AdWords.AdGroupCriterionService({
       validateOnly: argv.validateOnly
     });
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
-      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
       paging: {startIndex: 0, numberResults: 100},
     });
 

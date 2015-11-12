@@ -255,8 +255,13 @@ service.mutateLinkSet(
 
 ## Changelog
 ### 0.0.12
+- adds `AdGroupCriterionService`
+- adds `AdGroupAdService`
 - adds `AdGroupService`
+- adds `BiddingStrategyService`
+- adds `BudgetService`
 - adds `CampaignService`
+- adds `CampaignCriterionService`
 
 ### 0.0.11
 - adds `mutateRemove` for services
