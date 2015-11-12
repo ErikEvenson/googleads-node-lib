@@ -195,7 +195,7 @@ function AdWordsService(options) {
       if (response.rval) {
         return {
           partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval[self.rvalKey])
+          collection: new self.Collection(response.rval.value)
         };
       } else {
         return {};
