@@ -9,13 +9,27 @@ var links = require('../types/managedCustomerLink');
 
 function Service(options) {
   var self = this;
+  var Selector = require('../types/selector').model;
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
   self.ManagedCustomerLinkCollection = links.collection;
   self.ManagedCustomerLink = links.model;
 
+  self.findByCustomerId = function(clientCustomerId, customerId, cb) {
+    var selector = new Selector({
+      fields: ['CustomerId'],
+
+      predicates: [
+        {field: 'CustomerId', operator: 'EQUALS', values: customerId}
+      ]
+    });
+
+    return self.get(clientCustomerId, selector, cb);
+  };
+
   self.mutateLinkSet = function(clientCustomerId, operand, done) {
+    if (!operand.isValid()) return done(operand.validationError);
     var operation = {};
     operation[self.operatorKey] = 'SET';
     operation.operand = operand.toJSON();
