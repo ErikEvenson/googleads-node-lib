@@ -108,7 +108,7 @@ service.mutateAdd(
 );
 ```
 
-# Changelog
-## 0.0.7
+## Changelog
+### 0.0.7
 - caches service clients and credentials
 - adds `mutateAdd` for `ManagedCustomerService`
