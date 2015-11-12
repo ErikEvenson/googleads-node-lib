@@ -20,11 +20,34 @@ function Service(options) {
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
-  self.managedCustomerLinkCollection = links.collection;
-  self.managedCustomerLink = links.model;
+  self.ManagedCustomerLinkCollection = links.collection;
+  self.ManagedCustomerLink = links.model;
 
   self.formGetRequest = function(selector) {
     return {serviceSelector: selector.toJSON()};
+  };
+
+  self.mutateAdd = function(clientCustomerId, operand, done) {
+    // why the cm?
+    var options = {
+      clientCustomerId: clientCustomerId,
+      mutateMethod: 'mutate',
+      operations: [{'cm:operator': 'ADD', operand: operand.toJSON()}]
+    };
+
+    self.mutate(options, done);
+  };
+
+  self.mutateLinkSet = function(clientCustomerId, operand, done) {
+    // why the cm?
+    var options = {
+      clientCustomerId: clientCustomerId,
+      mutateMethod: 'mutateLink',
+      operations: [{'cm:operator': 'SET', operand: operand.toJSON()}],
+      parseMethod: self.parseMutateLinkRval
+    };
+
+    self.mutate(options, done);
   };
 
   self.parseGetRval = function(response) {
@@ -33,6 +56,24 @@ function Service(options) {
       collection: new self.Collection(response.rval.entries),
       links: new self.managedCustomerLinkCollection(response.rval.links)
     };
+  };
+
+  self.parseMutateLinkRval = function(response) {
+    if (self.options.validateOnly) {
+      return {
+        partialFailureErrors: null,
+        collection: new self.Collection([])
+      };
+    } else {
+      if (response.rval) {
+        return {
+          partialFailureErrors: response.rval.partialFailureErrors,
+          collection: new self.Collection(response.rval.links)
+        };
+      } else {
+        return {};
+      }
+    }
   };
 
   self.selectable = [
