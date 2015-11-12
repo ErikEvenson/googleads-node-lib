@@ -168,13 +168,20 @@ function AdWordsService(options) {
   };
 
   self.parseGetRval = function(response) {
-    if (response.rval) {
+    if (self.options.validateOnly) {
       return {
-        totalNumEntries: response.rval.totalNumEntries,
-        collection: new self.Collection(response.rval[self.rvalKey])
+        totalNumEntries: null,
+        collection: null
       };
     } else {
-      return {};
+      if (response.rval) {
+        return {
+          totalNumEntries: response.rval.totalNumEntries,
+          collection: new self.Collection(response.rval[self.rvalKey])
+        };
+      } else {
+        return {};
+      }
     }
   };
 

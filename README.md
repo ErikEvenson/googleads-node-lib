@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.14
+- lints and bugfixes
+
 ### 0.0.13
 - adds `findByCustomerId` to `ManagedCustomerService`
 - adds validation logic to `ManagedCustomer`
