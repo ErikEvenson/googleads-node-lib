@@ -124,6 +124,7 @@ function AdWordsService(options) {
   };
 
   self.mutateAdd = function(clientCustomerId, operand, done) {
+    if (!operand.isValid()) return done(operand.validationError);
     var operation = {};
     operation[self.operatorKey] = 'ADD';
     operation.operand = operand.toJSON();
@@ -152,6 +153,7 @@ function AdWordsService(options) {
   };
 
   self.mutateSet = function(clientCustomerId, operand, done) {
+    if (!operand.isValid()) return done(operand.validationError);
     var operation = {};
     operation[self.operatorKey] = 'SET';
     operation.operand = operand.toJSON();

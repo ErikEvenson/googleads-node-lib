@@ -6,6 +6,38 @@ var
   soap = require('soap');
 
 gulp.task(
+  'adWords:managedCustomerService:findByCustomerId',
+  'gets Google AdWords managed customer accounts by customerId',
+  function(cb) {
+    var argv = require('yargs')
+      .default(
+        'clientCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
+      .default('validateOnly', false, 'validate only')
+      .demand('customerId', 'customer id')
+      .argv;
+
+    var AdWords = require('..');
+
+    var service = new AdWords.ManagedCustomerService({
+      validateOnly: argv.validateOnly
+    });
+
+    service.findByCustomerId(
+      argv.clientCustomerId,
+      argv.customerId,
+      function(err, results) {
+        if (err) console.log(err);
+        else console.log(JSON.stringify(results, null, 2));
+        cb(err);
+      }
+    );
+  }
+);
+
+gulp.task(
   'adWords:managedCustomerService:get',
   'gets Google AdWords managed customer accounts',
   function(cb) {

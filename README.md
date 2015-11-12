@@ -254,6 +254,10 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.13
+- adds `findByCustomerId` to `ManagedCustomerService`
+- adds validation logic to `ManagedCustomer`
+
 ### 0.0.12
 - adds `AdGroupCriterionService`
 - adds `AdGroupAdService`
