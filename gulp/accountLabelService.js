@@ -6,8 +6,8 @@ var
   soap = require('soap');
 
 gulp.task(
-  'adWords:managedCustomerService:get',
-  'gets Google AdWords managed customer accounts',
+  'adWords:accountLabelService:get',
+  'gets Google AdWords account labels',
   function(cb) {
     var argv = require('yargs')
       .default(
@@ -20,7 +20,7 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.ManagedCustomerService({
+    var service = new AdWords.AccountLabelService({
       validateOnly: argv.validateOnly
     });
 
@@ -33,20 +33,16 @@ gulp.task(
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(JSON.stringify(results, null, 2));
-      }
-
+      if (err) console.log(err);
+      else console.log(JSON.stringify(results, null, 2));
       cb(err);
     });
   }
 );
 
 gulp.task(
-  'adWords:managedCustomerService:mutateAdd',
-  'adds Google AdWords account',
+  'adWords:accountLabelService:mutateAdd',
+  'adds Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
       .boolean('validateOnly')
@@ -55,28 +51,17 @@ gulp.task(
         process.env.ADWORDS_CLIENT_CUSTOMER_ID,
         'clientCustomerId of account'
       )
-      .default('currencyCode', 'USD', 'currency the account operates in')
-      .default(
-        'dateTimeZone',
-        'America/Chicago',
-        'local timezone ID for this client'
-      )
       .default('validateOnly', false, 'validate only')
-      .demand('name', 'name of the client')
-      .describe('companyName', 'company name of the account')
+      .demand('name', 'name of the label')
       .argv;
 
     var AdWords = require('..');
 
-    var service = new AdWords.ManagedCustomerService({
+    var service = new AdWords.AccountLabelService({
       validateOnly: argv.validateOnly
     });
 
-    var operand = new service.Model({
-      name: argv.name || null,
-      currencyCode: argv.currencyCode || 'USD',
-      dateTimeZone: argv.dateTimeZone || 'America/Chicago'
-    });
+    var operand = new service.Model({name: argv.name,});
 
     service.mutateAdd(
       argv.clientCustomerId,
@@ -91,36 +76,68 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:managedCustomerService:mutateLinkSet',
-  'adds Google AdWords account',
+  'adWords:accountLabelService:mutateRemove',
+  'removes Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
       .boolean('validateOnly')
       .default(
-        'managerCustomerId',
+        'clientCustomerId',
         process.env.ADWORDS_CLIENT_CUSTOMER_ID,
         'clientCustomerId of account'
       )
       .default('validateOnly', false, 'validate only')
-      .demand(
-        'clientCustomerId',
-        'clientCustomerId of account to set link on'
-      )
+      .demand('id', 'id of the label')
       .argv;
 
     var AdWords = require('..');
 
-    var service = new AdWords.ManagedCustomerService({
+    var service = new AdWords.AccountLabelService({
       validateOnly: argv.validateOnly
     });
 
-    var operand = new service.ManagedCustomerLink({
-      clientCustomerId: argv.clientCustomerId,
-      isHidden: true,
-      managerCustomerId: argv.managerCustomerId
+    var operand = new service.Model({id: argv.id,});
+
+    service.mutateRemove(
+      argv.clientCustomerId,
+      operand,
+      function(err, results) {
+        if (err) console.log(err);
+        else console.log(JSON.stringify(results, null, 2));
+        cb(err);
+      }
+    );
+  }
+);
+
+gulp.task(
+  'adWords:accountLabelService:mutateSet',
+  'removes Google AdWords account label',
+  function(cb) {
+    var argv = require('yargs')
+      .boolean('validateOnly')
+      .default(
+        'clientCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
+      .default('validateOnly', false, 'validate only')
+      .demand('id', 'id of the label')
+      .demand('name', 'new name of the label')
+      .argv;
+
+    var AdWords = require('..');
+
+    var service = new AdWords.AccountLabelService({
+      validateOnly: argv.validateOnly
     });
 
-    service.mutateLinkSet(
+    var operand = new service.Model({
+      id: argv.id,
+      name: argv.name
+    });
+
+    service.mutateSet(
       argv.clientCustomerId,
       operand,
       function(err, results) {
