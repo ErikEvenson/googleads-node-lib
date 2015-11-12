@@ -40,6 +40,8 @@ function Service(options) {
   // why the cm?
   self.operatorKey = 'cm:operator';
 
+  self.mutateRemove = null;
+
   self.parseGetRval = function(response) {
     return {
       totalNumEntries: response.rval.totalNumEntries,
