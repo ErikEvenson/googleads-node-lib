@@ -25,11 +25,9 @@ gulp.task(
     });
 
     var selector = new AdWords.Selector.model({
-      dateRange: {min: '19700101', max: '20380101'},
       fields: service.selectable,
       ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
       paging: {startIndex: 0, numberResults: 100},
-      predicates: []
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {

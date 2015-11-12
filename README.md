@@ -62,6 +62,132 @@ Failure to provide credentials will cause the library to throw a configuration e
 ## Using the library
 In addition to this growing collection of examples, you will find other examples in the gulp tasks.
 
+### AdGroupService
+Setting up the AdGroupService:
+
+```javascript
+var AdWords = require('googleads-node-lib');
+var service = new AdWords.AdGroupService();
+var clientCustomerId = 'the client customer ID you are interested in';
+```
+
+Getting AdGroups:
+
+```javascript
+var selector = new AdWords.Selector.model({
+  fields: service.selectable,
+  ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
+  paging: {startIndex: 0, numberResults: 100}
+});
+
+service.get(clientCustomerId, selector, function(err, results) {
+  if (err) console.log(err);
+  else console.log(JSON.stringify(results, null, 2));
+});
+```
+
+### AccountLabelService
+Setting up the AccountLabelService:
+
+```javascript
+var AdWords = require('googleads-node-lib');
+var service = new AdWords.AccountLabelService();
+var clientCustomerId = 'the client customer ID you are interested in';
+```
+
+Getting account labels:
+
+```javascript
+var selector = new AdWords.Selector.model({
+  fields: service.selectable,
+  ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
+  paging: {startIndex: 0, numberResults: 100}
+});
+
+service.get(clientCustomerId, selector, function(err, results) {
+  if (err) console.log(err);
+  else console.log(JSON.stringify(results, null, 2));
+});
+```
+
+Adding an account label:
+
+```javascript
+var operand = new service.Model({
+  name: 'the name of the account label'
+});
+
+service.mutateAdd(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+  }
+);
+```
+
+Removing an account label:
+
+```javascript
+var operand = new service.Model({
+  id: 'the id of the account label'
+});
+
+service.mutateRemove(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+  }
+);
+```
+
+Changing the name of an account label:
+
+```javascript
+var operand = new service.Model({
+  id: 'the id of the account label',
+  name: 'the new name of the account label'
+});
+
+service.mutateSet(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+  }
+);
+```
+
+### CampaignService
+Setting up the CampaignService:
+
+```javascript
+var AdWords = require('googleads-node-lib');
+var service = new AdWords.CampaignService();
+var clientCustomerId = 'the client customer ID you are interested in';
+```
+
+Getting your campaigns:
+
+```javascript
+var selector = new AdWords.Selector.model({
+  dateRange: {min: '19700101', max: '20380101'},
+  fields: service.selectable,
+  ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
+  paging: {startIndex: 0, numberResults: 100},
+  predicates: []
+});
+
+service.get(clientCustomerId, selector, function(err, results) {
+  if (err) console.log(err);
+  else console.log(JSON.stringify(results, null, 2));
+});
+```
+
 ### ManagedCustomerService
 Setting up the ManagedCustomerService:
 
@@ -127,68 +253,11 @@ service.mutateLinkSet(
 );
 ```
 
-### AccountLabelService
-Setting up the AccountLabelService:
-
-```javascript
-var AdWords = require('googleads-node-lib');
-var service = new AdWords.AccountLabelService();
-var clientCustomerId = 'the client customer ID you are interested in';
-```
-
-Adding an account label:
-
-```javascript
-var operand = new service.Model({
-  name: 'the name of the account label'
-});
-
-service.mutateAdd(
-  clientCustomerId,
-  operand,
-  function(err, results) {
-    if (err) console.log(err);
-    else console.log(JSON.stringify(results, null, 2));
-  }
-);
-```
-
-Removing an account label:
-
-```javascript
-var operand = new service.Model({
-  id: 'the id of the account label'
-});
-
-service.mutateRemove(
-  clientCustomerId,
-  operand,
-  function(err, results) {
-    if (err) console.log(err);
-    else console.log(JSON.stringify(results, null, 2));
-  }
-);
-```
-
-Changing the name of an account label:
-
-```javascript
-var operand = new service.Model({
-  id: 'the id of the account label',
-  name: 'the new name of the account label'
-});
-
-service.mutateSet(
-  clientCustomerId,
-  operand,
-  function(err, results) {
-    if (err) console.log(err);
-    else console.log(JSON.stringify(results, null, 2));
-  }
-);
-```
-
 ## Changelog
+### 0.0.12
+- adds `AdGroupService`
+- adds `CampaignService`
+
 ### 0.0.11
 - adds `mutateRemove` for services
 - adds `mutateSet` for services
