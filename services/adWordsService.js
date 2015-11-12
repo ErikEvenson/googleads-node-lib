@@ -40,7 +40,7 @@ function AdWordsService(options) {
   self.name = '';
   self.namespace = 'ns1';
   self.operatorKey = 'operator';
-  self.rvalKey = 'value';
+  self.rvalKey = 'entries';
   self.selectorKey = 'selector';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
 

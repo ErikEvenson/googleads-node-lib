@@ -1,11 +1,3 @@
-/*
-
-API:
-https://developers.google.com/adwords/api/docs/reference/v201506
-/ManagedCustomerService
-
-*/
-
 var
   _ = require('lodash'),
   async = require('async'),

@@ -4,19 +4,25 @@ var
   soap = require('soap');
 
 var AdWordsService = require('./adWordsService');
-var types = require('../types/accountLabel');
+var types = require('../types/sharedBiddingStrategy');
 
 function Service(options) {
   var self = this;
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
-  self.operatorKey = 'cm:operator';
-  self.rvalKey = 'labels';
-  self.selectable = ['LabelId', 'LabelName'];
-  self.selectorKey = 'serviceSelector';
-  self.xmlns = 'https://adwords.google.com/api/adwords/mcm/v201506';
-  self.wsdlUrl = self.xmlns + '/AccountLabelService?wsdl';
+  // self.operatorKey = 'cm:operator';
+
+  self.selectable = [
+    'BiddingScheme',
+    'Id',
+    'Name',
+    'Status',
+    'Type'
+  ];
+
+  self.xmlns = 'https://adwords.google.com/api/adwords/cm/v201506';
+  self.wsdlUrl = self.xmlns + '/BiddingStrategyService?wsdl';
 }
 
 Service.prototype = _.create(AdWordsService.prototype, {
