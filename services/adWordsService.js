@@ -128,7 +128,6 @@ function AdWordsService(options) {
   };
 
   self.parseMutateRval = function(response) {
-    console.log(response);
     if (self.options.validateOnly) {
       return {
         partialFailureErrors: null,

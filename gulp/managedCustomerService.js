@@ -41,6 +41,7 @@ gulp.task(
   'adds Google AdWords account',
   function(cb) {
     var argv = require('yargs')
+      .boolean('validateOnly')
       .default(
         'clientCustomerId',
         process.env.ADWORDS_CLIENT_CUSTOMER_ID,
@@ -52,14 +53,19 @@ gulp.task(
         'America/Chicago',
         'local timezone ID for this client'
       )
+      .default('validateOnly', false, 'validate only')
       .demand('name', 'name of the client')
       .describe('companyName', 'company name of the account')
       .argv;
 
     var AdWords = require('..');
-    var service = new AdWords.ManagedCustomerService();
+
+    var service = new AdWords.ManagedCustomerService({
+      // validateOnly: argv.validateOnly
+    });
+
     var clientCustomerId = argv.clientCustomerId;
-    var Model = require('../types/managedCustomer').model;
+    var Model = service.Model;
 
     var operand = new Model({
       name: argv.name || null,
