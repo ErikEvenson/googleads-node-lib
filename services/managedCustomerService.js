@@ -27,11 +27,11 @@ function Service(options) {
     return {serviceSelector: selector.toJSON()};
   };
 
-  self.parseGetRval = function(rval) {
+  self.parseGetRval = function(response) {
     return {
-      totalNumEntries: rval.rval.totalNumEntries,
-      collection: new self.Collection(rval.rval.entries),
-      links: new self.managedCustomerLinkCollection(rval.rval.links)
+      totalNumEntries: response.rval.totalNumEntries,
+      collection: new self.Collection(response.rval.entries),
+      links: new self.managedCustomerLinkCollection(response.rval.links)
     };
   };
 

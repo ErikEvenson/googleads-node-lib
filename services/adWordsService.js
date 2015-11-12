@@ -45,27 +45,35 @@ function AdWordsService(options) {
     return {selector: selector.toJSON()};
   };
 
-  self.get = function(clientCustomerId, selector, done) {
-    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
-
-    async.waterfall([
-      // Get an active access token...
+  self.getClient = function(done) {
+    async.series([
+      // get an active access token...
       function(cb) {self.refresh(cb);},
-      // Create a SOAP client...
+      // create a SOAP client...
       function(cb) {
         if (self.client) {
           // behave async
           setTimeout(function() {cb(null, self.client);}, 0);
           return;
         } else {
-          soap.createClient(self.wsdlUrl, cb);
+          soap.createClient(self.wsdlUrl, function(err, client) {
+            self.client = client;
+            cb(err, self.client);
+          });
           return;
         }
-      },
-      // Request AdWords data...
-      function(adWordsClient, cb) {
-        self.client = adWordsClient;
+      }
+    ], done);
+  };
 
+  self.get = function(clientCustomerId, selector, done) {
+    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
+
+    async.waterfall([
+      // get client
+      self.getClient,
+      // Request AdWords data...
+      function(client, cb) {
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
@@ -74,28 +82,53 @@ function AdWordsService(options) {
           new soap.BearerSecurity(self.credentials.access_token)
         );
 
-        self.client.get(
-          self.formGetRequest(selector),
-          function(err, rval) {
-            if (err) {
-              cb(err, rval, self.client.lastRequest);
-            } else {
-              cb(err, self.parseGetRval(rval), self.client.lastRequest);
-            }
-          }
-        );
+        self.client.get(self.formGetRequest(selector), cb);
       }
-    ], done);
+    ],
+    function(err, response) {
+      return done(err, self.parseGetRval(response));
+    });
   };
 
-  self.parseGetRval = function(rval) {
+  self.mutate = function(clientCustomerId, operations, mutateMethod, done) {
+    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
+
+    async.waterfall([
+      // get client
+      self.getClient,
+      // Request AdWords data...
+      function(client, cb) {
+        self.client.addSoapHeader(
+          self.soapHeader, self.name, self.namespace, self.xmlns
+        );
+
+        self.client.setSecurity(
+          new soap.BearerSecurity(self.credentials.access_token)
+        );
+
+        self.client[mutateMethod]({operations: operations}, cb);
+      }
+    ],
+    function(err, response) {
+      return done(err, self.parseMutateRval(response));
+    });
+  };
+
+  self.mutateAdd = function(clientCustomerId, operand, done) {
+    // why the cm?
+    var operations = [{'cm:operator': 'ADD', operand: operand.toJSON()}];
+    self.mutate(clientCustomerId, operations, 'mutate', done);
+  };
+
+  self.parseGetRval = function(response) {
     return {
-      totalNumEntries: rval.rval.totalNumEntries,
-      collection: new self.Collection(rval.rval.entries)
+      totalNumEntries: response.rval.totalNumEntries,
+      collection: new self.Collection(response.rval.entries)
     };
   };
 
-  self.parseMutateRval = function(rval) {
+  self.parseMutateRval = function(response) {
+    console.log(response);
     if (self.options.validateOnly) {
       return {
         partialFailureErrors: null,
@@ -103,8 +136,8 @@ function AdWordsService(options) {
       };
     } else {
       return {
-        partialFailureErrors: rval.rval.partialFailureErrors,
-        collection: new self.Collection(rval.rval.value)
+        partialFailureErrors: response.rval.partialFailureErrors,
+        collection: new self.Collection(response.rval.value)
       };
     }
   };
