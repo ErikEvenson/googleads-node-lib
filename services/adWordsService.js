@@ -151,6 +151,20 @@ function AdWordsService(options) {
     self.mutate(options, done);
   };
 
+  self.mutateSet = function(clientCustomerId, operand, done) {
+    var operation = {};
+    operation[self.operatorKey] = 'SET';
+    operation.operand = operand.toJSON();
+
+    var options = {
+      clientCustomerId: clientCustomerId,
+      mutateMethod: 'mutate',
+      operations: [operation]
+    };
+
+    self.mutate(options, done);
+  };
+
   self.parseGetRval = function(response) {
     if (response.rval) {
       return {

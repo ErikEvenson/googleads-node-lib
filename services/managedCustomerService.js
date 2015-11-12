@@ -39,8 +39,8 @@ function Service(options) {
 
   // why the cm?
   self.operatorKey = 'cm:operator';
-
   self.mutateRemove = null;
+  self.mutateSet = null;
 
   self.parseGetRval = function(response) {
     return {

@@ -140,7 +140,7 @@ Adding an account label:
 
 ```javascript
 var operand = new service.Model({
-  name: 'the name of the account label',
+  name: 'the name of the account label'
 });
 
 service.mutateAdd(
@@ -157,7 +157,7 @@ Removing an account label:
 
 ```javascript
 var operand = new service.Model({
-  id: 'the id of the account label',
+  id: 'the id of the account label'
 });
 
 service.mutateRemove(
@@ -170,9 +170,28 @@ service.mutateRemove(
 );
 ```
 
+Changing the name of an account label:
+
+```javascript
+var operand = new service.Model({
+  id: 'the id of the account label',
+  name: 'the new name of the account label'
+});
+
+service.mutateSet(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+  }
+);
+```
+
 ## Changelog
 ### 0.0.11
-- add `mutateRemove` for services
+- adds `mutateRemove` for services
+- adds `mutateSet` for services
 
 ### 0.0.10
 - adds `AccountLabelService`

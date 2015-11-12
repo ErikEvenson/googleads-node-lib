@@ -109,3 +109,42 @@ gulp.task(
     );
   }
 );
+
+gulp.task(
+  'adWords:accountLabelService:mutateSet',
+  'removes Google AdWords account label',
+  function(cb) {
+    var argv = require('yargs')
+      .boolean('validateOnly')
+      .default(
+        'clientCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
+      .default('validateOnly', false, 'validate only')
+      .demand('id', 'id of the label')
+      .demand('name', 'new name of the label')
+      .argv;
+
+    var AdWords = require('..');
+
+    var service = new AdWords.AccountLabelService({
+      validateOnly: argv.validateOnly
+    });
+
+    var operand = new service.Model({
+      id: argv.id,
+      name: argv.name
+    });
+
+    service.mutateSet(
+      argv.clientCustomerId,
+      operand,
+      function(err, results) {
+        if (err) console.log(err);
+        else console.log(JSON.stringify(results, null, 2));
+        cb(err);
+      }
+    );
+  }
+);
