@@ -1,5 +1,5 @@
 # An unofficial node library for Google AdWords
-**Under development!**
+**Under development!**  Use with caution.
 
 ## Installing the library
 
@@ -127,7 +127,36 @@ service.mutateLinkSet(
 );
 ```
 
+### AccountLabelService
+Setting up the AccountLabelService:
+
+```javascript
+var AdWords = require('googleads-node-lib');
+var service = new AdWords.AccountLabelService();
+var clientCustomerId = 'the client customer ID you are interested in';
+```
+
+Adding an account label:
+
+```javascript
+var operand = new service.Model({
+  name: 'the name of the label',
+});
+
+service.mutateAdd(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+  }
+);
+```
+
 ## Changelog
+### 0.0.10
+- adds `AccountLabelService`
+
 ### 0.0.9
 - bugfix
 

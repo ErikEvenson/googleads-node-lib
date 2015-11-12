@@ -15,6 +15,7 @@ gulp.task(
         process.env.ADWORDS_CLIENT_CUSTOMER_ID,
         'clientCustomerId of account'
       )
+      .default('validateOnly', false, 'validate only')
       .argv;
 
     var AdWords = require('..');
@@ -44,7 +45,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adwords:managedCustomerService:mutateAdd',
+  'adWords:managedCustomerService:mutateAdd',
   'adds Google AdWords account',
   function(cb) {
     var argv = require('yargs')
@@ -90,7 +91,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adwords:managedCustomerService:mutateLinkSet',
+  'adWords:managedCustomerService:mutateLinkSet',
   'adds Google AdWords account',
   function(cb) {
     var argv = require('yargs')
