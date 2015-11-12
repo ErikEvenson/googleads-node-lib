@@ -8,6 +8,7 @@ var
 // define abstract AdWords service
 function AdWordsService(options) {
   var self = this;
+
   // set up rational defaults
   if (!options) options = {};
 
@@ -30,67 +31,103 @@ function AdWordsService(options) {
     !options.ADWORDS_SECRET ||
     !options.ADWORDS_USER_AGENT
   ) {
-    throw(new Error('googleads-node-lib not configured correctly'));
-    return null;
+    throw (new Error('googleads-node-lib not configured correctly'));
   }
 
   self.options = options;
-  self.accessToken = null;
   self.client = null;
+  self.credentials = null;
   self.name = '';
   self.namespace = 'ns1';
-
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
 
   self.formGetRequest = function(selector) {
     return {selector: selector.toJSON()};
   };
 
-  self.get = function(clientCustomerId, selector, done) {
-    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
-
-    async.waterfall([
-      // Get an active access token...
+  self.getClient = function(done) {
+    async.series([
+      // get an active access token...
+      function(cb) {self.refresh(cb);},
+      // create a SOAP client...
       function(cb) {
-        self.refresh(cb);
-      },
-      // Create a SOAP client...
-      function(credentials, cb) {
-        self.accessToken = credentials.access_token;
-        soap.createClient(self.wsdlUrl, cb);
-      },
-      // Request AdWords data...
-      function(adWordsClient, cb) {
-        self.client = adWordsClient;
-
-        self.client.addSoapHeader(
-          self.soapHeader, self.name, self.namespace, self.xmlns
-        );
-
-        self.client.setSecurity(new soap.BearerSecurity(self.accessToken));
-
-        self.client.get(
-          self.formGetRequest(selector),
-          function(err, rval) {
-            if (err) {
-              cb(err, rval, self.client.lastRequest);
-            } else {
-              cb(err, self.parseGetRval(rval), self.client.lastRequest);
-            }
-          }
-        );
+        if (self.client) {
+          // behave async
+          setTimeout(function() {cb(null, self.client);}, 0);
+          return;
+        } else {
+          soap.createClient(self.wsdlUrl, function(err, client) {
+            self.client = client;
+            cb(err, self.client);
+          });
+          return;
+        }
       }
     ], done);
   };
 
-  self.parseGetRval = function(rval) {
+  self.get = function(clientCustomerId, selector, done) {
+    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
+
+    async.waterfall([
+      // get client
+      self.getClient,
+      // Request AdWords data...
+      function(client, cb) {
+        self.client.addSoapHeader(
+          self.soapHeader, self.name, self.namespace, self.xmlns
+        );
+
+        self.client.setSecurity(
+          new soap.BearerSecurity(self.credentials.access_token)
+        );
+
+        self.client.get(self.formGetRequest(selector), cb);
+      }
+    ],
+    function(err, response) {
+      return done(err, self.parseGetRval(response));
+    });
+  };
+
+  self.mutate = function(clientCustomerId, operations, mutateMethod, done) {
+    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
+
+    async.waterfall([
+      // get client
+      self.getClient,
+      // Request AdWords data...
+      function(client, cb) {
+        self.client.addSoapHeader(
+          self.soapHeader, self.name, self.namespace, self.xmlns
+        );
+
+        self.client.setSecurity(
+          new soap.BearerSecurity(self.credentials.access_token)
+        );
+
+        self.client[mutateMethod]({operations: operations}, cb);
+      }
+    ],
+    function(err, response) {
+      return done(err, self.parseMutateRval(response));
+    });
+  };
+
+  self.mutateAdd = function(clientCustomerId, operand, done) {
+    // why the cm?
+    var operations = [{'cm:operator': 'ADD', operand: operand.toJSON()}];
+    self.mutate(clientCustomerId, operations, 'mutate', done);
+  };
+
+  self.parseGetRval = function(response) {
     return {
-      totalNumEntries: rval.rval.totalNumEntries,
-      collection: new self.Collection(rval.rval.entries)
+      totalNumEntries: response.rval.totalNumEntries,
+      collection: new self.Collection(response.rval.entries)
     };
   };
 
-  self.parseMutateRval = function(rval) {
+  self.parseMutateRval = function(response) {
     if (self.options.validateOnly) {
       return {
         partialFailureErrors: null,
@@ -98,31 +135,47 @@ function AdWordsService(options) {
       };
     } else {
       return {
-        partialFailureErrors: rval.rval.partialFailureErrors,
-        collection: new self.Collection(rval.rval.value)
+        partialFailureErrors: response.rval.partialFailureErrors,
+        collection: new self.Collection(response.rval.value)
       };
     }
   };
 
   self.refresh = function(done) {
-    var qs = {
-      refresh_token: self.options.ADWORDS_REFRESH_TOKEN,
-      client_id: self.options.ADWORDS_CLIENT_ID,
-      client_secret: self.options.ADWORDS_SECRET,
-      grant_type: 'refresh_token'
-    };
+    // check if current credentials haven't expired
+    if (self.credentials && Date.now() < self.credentials.expires) {
+      // behave like an async
+      setTimeout(function() {done(null);}, 0);
+      return;
+    } else {
+      // throw away cached client
+      self.client = null;
 
-    request.post(
-      {
-        qs: qs,
-        url: self.tokenUrl
-      },
-      function(error, response, body) {
-        credentials = JSON.parse(body);
-        credentials.issuedAt = Date.now();
-        return done(error, credentials);
-      }
-    );
+      var qs = {
+        refresh_token: self.options.ADWORDS_REFRESH_TOKEN,
+        client_id: self.options.ADWORDS_CLIENT_ID,
+        client_secret: self.options.ADWORDS_SECRET,
+        grant_type: 'refresh_token'
+      };
+
+      request.post(
+        {
+          qs: qs,
+          url: self.tokenUrl
+        },
+        function(error, response, body) {
+          self.credentials = JSON.parse(body);
+          self.credentials.issued = Date.now();
+
+          self.credentials.expires = self.credentials.issued -
+            self.credentials.expires_in;
+
+          done(error);
+        }
+      );
+
+      return;
+    }
   };
 
   self.soapHeader = {

@@ -78,18 +78,37 @@ var selector = new AdWords.Selector.model({
   predicates: []
 });
 
-service.get(clientCustomerId, selector, function(err, rval, lastRequest) {
-  if (err) {
-    // log the error
-    console.log(err);
-  } else {
-    // log the SOAP request made to AdWords
-    console.log('REQUEST:');
-    console.log(pd.xml(lastRequest));
-    // log rval which has two keys: totalNumEntries and
-    // collection (a Backbone collection)
-    console.log('\nRESPONSE:');
-    console.log(JSON.stringify(rval, null, 2));
-  }
+service.get(clientCustomerId, selector, function(err, results) {
+  if (err) console.log(err);
+  else console.log(JSON.stringify(results, null, 2));
 });
 ```
+
+Adding a managed customer:
+
+```javascript
+var AdWords = require('googleads-node-lib');
+var service = new AdWords.ManagedCustomerService();
+var clientCustomerId = 'the client customer ID you are interested in';
+var Model = service.Model;
+
+var operand = new Model({
+  name: 'the name of the customer',
+  currencyCode: 'USD',
+  dateTimeZone: 'America/Chicago'
+});
+
+service.mutateAdd(
+  clientCustomerId,
+  operand,
+  function(err, results) {
+    if (err) console.log(err);
+    else console.log(JSON.stringify(results, null, 2));
+  }
+);
+```
+
+# Changelog
+## 0.0.7
+- caches service clients and credentials
+- adds `mutateAdd` for `ManagedCustomerService`

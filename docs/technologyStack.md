@@ -2,7 +2,6 @@
 These are the technologies used in this project.
 
 ## bash-installed
-
 ## npm-installed
 Global:
 - [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
