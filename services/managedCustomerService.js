@@ -54,7 +54,7 @@ function Service(options) {
     return {
       totalNumEntries: response.rval.totalNumEntries,
       collection: new self.Collection(response.rval.entries),
-      links: new self.managedCustomerLinkCollection(response.rval.links)
+      links: new self.ManagedCustomerLinkCollection(response.rval.links)
     };
   };
 
