@@ -1,11 +1,3 @@
-/*
-
-API:
-https://developers.google.com/adwords/api/docs/reference/v201509
-/AdGroupAdService.AdGroupAd
-
-*/
-
 var Backbone = require('backbone');
 
 var AdGroupAd = Backbone.Model.extend({});
