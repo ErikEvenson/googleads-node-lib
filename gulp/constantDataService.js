@@ -7,7 +7,7 @@ var
 
   gulp.task(
     'adWords:constantDataService:getConstantData',
-    'gets Google AdWords age range criteria',
+    'gets Google AdWords constant data',
     function(cb) {
       var argv = require('yargs')
         .choices(
