@@ -19,7 +19,7 @@ var
             'LanguageCriterion',
             'MobileDeviceCriterion',
             'OperatingSystemVersionCriterion',
-            // 'ProductBiddingCategoryData',
+            'ProductBiddingCategoryData',
             // 'UserInterestCriterion',
             'VerticalCriterion'
           ]
@@ -29,6 +29,7 @@ var
           process.env.ADWORDS_CLIENT_CUSTOMER_ID,
           'clientCustomerId of account'
         )
+        .default('countryCode', 'US', 'country code')
         .default('validateOnly', false, 'validate only')
         .demand('type', 'constant data type')
         .argv;
@@ -39,7 +40,11 @@ var
         validateOnly: argv.validateOnly
       });
 
-      service.getConstantData(argv.type, function(err, results) {
+      var options = {
+        countryCode: argv.countryCode,
+        type: argv.type
+      };
+      service.getConstantData(options, function(err, results) {
         if (err) console.log(err);
         else console.log(JSON.stringify(results, null, 2));
         cb(err);

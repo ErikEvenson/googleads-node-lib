@@ -4,6 +4,7 @@ var
   soap = require('soap');
 
 var AdWordsService = require('./adWordsService');
+var Selector = require('../types/selector');
 var types = require('../types/constantData');
 
 function Service(options) {
@@ -14,7 +15,7 @@ function Service(options) {
 
   self.get = null;
 
-  self.getConstantData = function(type, done) {
+  self.getConstantData = function(options, done) {
     async.waterfall([
       // get client
       self.getClient,
@@ -28,7 +29,7 @@ function Service(options) {
           new soap.BearerSecurity(self.credentials.access_token)
         );
 
-        switch (type) {
+        switch (options.type) {
           case 'AgeRangeCriterion':
             self.client.getAgeRangeCriterion(cb);
             break;
@@ -47,11 +48,31 @@ function Service(options) {
           case 'OperatingSystemVersionCriterion':
             self.client.getOperatingSystemVersionCriterion(cb);
             break;
-          // case 'ProductBiddingCategoryData':
-          //   self.client.getProductBiddingCategoryData(cb);
-          //   break;
+          case 'ProductBiddingCategoryData':
+            var selector = new Selector.model({
+              predicates: [
+                {
+                  field: 'Country',
+                  operator: 'EQUALS',
+                  values: options.countryCode
+                }
+              ]
+            });
+
+            var request = {};
+            request[self.selectorKey] = selector.toJSON();
+
+            self.client.getProductBiddingCategoryData(request, cb);
+            break;
           // case 'UserInterestCriterion':
-          //   self.client.getUserInterestCriterion(cb);
+          //   // not really a selector, but...
+          //   var userInterestTaxonomyType = new Selector.model({
+          //     userInterestTaxonomyType: 'BRAND'
+          //   });
+          //
+          //   var request = {}
+          //   request.userInterestTaxonomyType = userInterestTaxonomyType.toJSON();
+          //   self.client.getUserInterestCriterion(request, cb);
           //   break;
           case 'VerticalCriterion':
             self.client.getVerticalCriterion(cb);
@@ -90,7 +111,7 @@ function Service(options) {
   };
 
   self.selectable = [];
-  self.selectorKey = 'serviceSelector';
+  self.selectorKey = 'selector';
   self.xmlns = 'https://adwords.google.com/api/adwords/cm/v201509';
   self.wsdlUrl = self.xmlns + '/ConstantDataService?wsdl';
 }
