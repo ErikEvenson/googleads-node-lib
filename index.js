@@ -1,14 +1,52 @@
 module.exports = {
-  AccountLabelService: require('./services/accountLabelService'),
+  // Campaign data management
   AdGroupAdService: require('./services/adGroupAdService'),
   AdGroupCriterionService: require('./services/adGroupCriterionService'),
+  AdGroupFeedService: null,
   AdGroupService: require('./services/adGroupService'),
-  BiddingStrategyService: require('./services/biddingStrategyService'),
+  AdwordsUserListService: null,
   BudgetService: require('./services/budgetService'),
-  CampaignService: require('./services/campaignService'),
   CampaignCriterionService: require('./services/campaignCriterionService'),
-  ConstantDataService: require('./services/constantDataService'),
+  CampaignExtensionSettingService: null,
+  CampaignFeedService: null,
+  CampaignService: require('./services/campaignService'),
+  ConversionTrackerService: null,
+  DataService: null,
+  FeedItemService: null,
+  FeedMappingService: null,
+  FeedService: null,
+  OfflineConversionFeedService: null,
+
+  // Optimization
+  ExperimentService: null,
+  ReportDefinitionService: null,
+  TargetingIdeaService: null,
+  TrafficEstimatorService: null,
+
+  // Account management
+  CustomerService: null,
+  CustomerSyncService: null,
   ManagedCustomerService: require('./services/managedCustomerService'),
+
+  // Utility
+  BatchJobService: null,
+  GeoLocationService: null,
+  MediaService: null,
+  ConstantDataService: require('./services/constantDataService'),
+  LocationCriterionService: null,
+
+  // Other (not categorized by AdWords)
+  AccountLabelService: require('./services/accountLabelService'),
+  AdCustomizerFeedService: null,
+  AdGroupBidModifierService: null,
+  AdGroupExtensionSettingService: null,
+  AdParamService: null,
+  CustomerFeedService: null,
+  LabelService: null,
+  MutateJobService: null,
+  SharedCriterionService: null,
+  SharedSetService: null,
+  BiddingStrategyService: require('./services/biddingStrategyService'),
   Selector: require('./types/selector'),
   printMsg: function() {console.log('UNDER DEVELOPMENT!  Use with caution.');}
 };
