@@ -84,3 +84,32 @@ gulp.task(
     );
   }
 );
+
+gulp.task(
+  'adWords:campaignService:query',
+  'queries Google AdWords campaigns',
+  function(cb) {
+    var argv = require('yargs')
+      .default(
+        'clientCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
+      .default('validateOnly', false, 'validate only')
+      .argv;
+
+    var AdWords = require('..');
+
+    var service = new AdWords.CampaignService({
+      validateOnly: argv.validateOnly
+    });
+
+    var query = 'SELECT Id, Name, Status ORDER BY Name';
+
+    service.query(argv.clientCustomerId, query, function(err, results) {
+      if (err) console.log(err);
+      else console.log(JSON.stringify(results, null, 2));
+      cb(err);
+    });
+  }
+);
