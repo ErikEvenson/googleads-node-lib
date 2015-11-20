@@ -255,7 +255,7 @@ service.mutateLinkSet(
 
 ## Changelog
 ### 0.0.18
-- adds ...
+- adds support for AWQL queries (see campaign service gulp example)
 
 ### 0.0.17
 - adds `ProductBiddingCategoryData` to `ConstantDataService`

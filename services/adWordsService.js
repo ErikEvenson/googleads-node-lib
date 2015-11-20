@@ -91,7 +91,7 @@ function AdWordsService(options) {
       }
     ],
     function(err, response) {
-      return done(err, self.parseGetRval(response));
+      return done(err, self.parsePage(response));
     });
   };
 
@@ -167,7 +167,25 @@ function AdWordsService(options) {
     self.mutate(options, done);
   };
 
-  self.parseGetRval = function(response) {
+  self.parseMutateRval = function(response) {
+    if (self.options.validateOnly) {
+      return {
+        partialFailureErrors: null,
+        collection: new self.Collection([])
+      };
+    } else {
+      if (response.rval) {
+        return {
+          partialFailureErrors: response.rval.partialFailureErrors,
+          collection: new self.Collection(response.rval.value)
+        };
+      } else {
+        return {};
+      }
+    }
+  };
+
+  self.parsePage = function(response) {
     if (self.options.validateOnly) {
       return {
         totalNumEntries: null,
@@ -185,22 +203,28 @@ function AdWordsService(options) {
     }
   };
 
-  self.parseMutateRval = function(response) {
-    if (self.options.validateOnly) {
-      return {
-        partialFailureErrors: null,
-        collection: new self.Collection([])
-      };
-    } else {
-      if (response.rval) {
-        return {
-          partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval.value)
-        };
-      } else {
-        return {};
+  self.query = function(clientCustomerId, query, done) {
+    self.soapHeader.RequestHeader.clientCustomerId = clientCustomerId;
+
+    async.waterfall([
+      // get client
+      self.getClient,
+      // Request AdWords data...
+      function(client, cb) {
+        self.client.addSoapHeader(
+          self.soapHeader, self.name, self.namespace, self.xmlns
+        );
+
+        self.client.setSecurity(
+          new soap.BearerSecurity(self.credentials.access_token)
+        );
+
+        self.client.query({query: query}, cb);
       }
-    }
+    ],
+    function(err, response) {
+      return done(err, self.parsePage(response));
+    });
   };
 
   self.refresh = function(done) {

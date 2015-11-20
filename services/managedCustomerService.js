@@ -48,7 +48,25 @@ function Service(options) {
   self.mutateRemove = null;
   self.mutateSet = null;
 
-  self.parseGetRval = function(response) {
+  self.parseMutateLinkRval = function(response) {
+    if (self.options.validateOnly) {
+      return {
+        partialFailureErrors: null,
+        collection: new self.Collection([])
+      };
+    } else {
+      if (response.rval) {
+        return {
+          partialFailureErrors: response.rval.partialFailureErrors,
+          collection: new self.Collection(response.rval.links)
+        };
+      } else {
+        return {};
+      }
+    }
+  };
+
+  self.parsePage = function(response) {
     if (self.options.validateOnly) {
       return {
         totalNumEntries: null,
@@ -61,24 +79,6 @@ function Service(options) {
           totalNumEntries: response.rval.totalNumEntries,
           collection: new self.Collection(response.rval[self.rvalKey]),
           links: new self.ManagedCustomerLinkCollection(response.rval.links)
-        };
-      } else {
-        return {};
-      }
-    }
-  };
-
-  self.parseMutateLinkRval = function(response) {
-    if (self.options.validateOnly) {
-      return {
-        partialFailureErrors: null,
-        collection: new self.Collection([])
-      };
-    } else {
-      if (response.rval) {
-        return {
-          partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval.links)
         };
       } else {
         return {};
