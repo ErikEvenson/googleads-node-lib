@@ -8,7 +8,7 @@ npm install googleads-node-lib
 ```
 
 ## Getting your Google AdWords access and refresh tokens
-Start by getting an authorization code.  To get an authorization code (filling in client_id and selecting account), open this URL in your browser:
+Start by following the instructions at [https://developers.google.com/adwords/api/docs/guides/start](https://developers.google.com/adwords/api/docs/guides/start).  You will need client ID, a client secret, and an authorization code.  You will get the client ID and the client secret from the Google Developers Console.  To get an authorization code (filling in client_id and selecting account), open this URL in your browser:
 
 ```
 https://accounts.google.com/o/oauth2/auth?client_id=<CLIENT_ID>&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fadwords&redirect_uri=urn:ietf:wg:oauth:2.0:oob&access_type=offline&approval_prompt=auto
@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.18
+- adds ...
+
 ### 0.0.17
 - adds `ProductBiddingCategoryData` to `ConstantDataService`
 
