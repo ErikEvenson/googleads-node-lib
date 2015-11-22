@@ -20,9 +20,8 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.AdGroupCriterionService({
-      validateOnly: argv.validateOnly
-    });
+    var service = new AdWords.AdGroupCriterionService()
+      .setValidateOnly(argv.validateOnly);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,

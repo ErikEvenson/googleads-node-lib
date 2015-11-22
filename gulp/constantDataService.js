@@ -36,9 +36,8 @@ var
 
       var AdWords = require('..');
 
-      var service = new AdWords.ConstantDataService({
-        validateOnly: argv.validateOnly
-      });
+      var service = new AdWords.ConstantDataService()
+        .setValidateOnly(argv.validateOnly);
 
       var options = {
         countryCode: argv.countryCode,

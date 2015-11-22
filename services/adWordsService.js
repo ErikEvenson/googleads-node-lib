@@ -35,6 +35,7 @@ function AdWordsService(options) {
   }
 
   self.options = options;
+
   self.client = null;
   self.credentials = null;
   self.name = '';
@@ -43,6 +44,7 @@ function AdWordsService(options) {
   self.rvalKey = 'entries';
   self.selectorKey = 'selector';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
+  self.validateOnly = self.options.validateOnly;
 
   self.formGetRequest = function(selector) {
     var request = {};
@@ -168,7 +170,7 @@ function AdWordsService(options) {
   };
 
   self.parseMutateRval = function(response) {
-    if (self.options.validateOnly) {
+    if (self.validateOnly) {
       return {
         partialFailureErrors: null,
         collection: new self.Collection([])
@@ -186,7 +188,7 @@ function AdWordsService(options) {
   };
 
   self.parsePage = function(response) {
-    if (self.options.validateOnly) {
+    if (self.validateOnly) {
       return {
         totalNumEntries: null,
         collection: null
@@ -264,12 +266,17 @@ function AdWordsService(options) {
     }
   };
 
+  self.setValidateOnly = function(flag) {
+    self.validateOnly = flag;
+    return self;
+  };
+
   self.soapHeader = {
     RequestHeader: {
       developerToken: self.options.ADWORDS_DEVELOPER_TOKEN,
       userAgent: self.options.ADWORDS_USER_AGENT,
       clientCustomerId: self.options.ADWORDS_CLIENT_CUSTOMER_ID,
-      validateOnly: self.options.validateOnly
+      validateOnly: self.validateOnly
     }
   };
 }

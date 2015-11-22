@@ -20,9 +20,8 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.AccountLabelService({
-      validateOnly: argv.validateOnly
-    });
+    var service = new AdWords.AccountLabelService()
+      .setValidateOnly(argv.validateOnly);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
@@ -55,9 +54,8 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.AccountLabelService({
-      validateOnly: argv.validateOnly
-    });
+    var service = new AdWords.AccountLabelService()
+      .setValidateOnly(argv.validateOnly);
 
     var operand = new service.Model({name: argv.name,});
 
@@ -90,9 +88,8 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.AccountLabelService({
-      validateOnly: argv.validateOnly
-    });
+    var service = new AdWords.AccountLabelService()
+      .setValidateOnly(argv.validateOnly);
 
     var operand = new service.Model({id: argv.id,});
 
@@ -126,9 +123,8 @@ gulp.task(
 
     var AdWords = require('..');
 
-    var service = new AdWords.AccountLabelService({
-      validateOnly: argv.validateOnly
-    });
+    var service = new AdWords.AccountLabelService()
+      .setValidateOnly(argv.validateOnly);
 
     var operand = new service.Model({
       id: argv.id,

@@ -20,7 +20,7 @@ module.exports = {
   // Optimization
   ExperimentService: null,
   ReportDefinitionService: null,
-  TargetingIdeaService: null,
+  TargetingIdeaService: require('./services/targetingIdeaService'),
   TrafficEstimatorService: null,
 
   // Account management
