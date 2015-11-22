@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.20
+- adds `TrafficEstimatorService`
+
 ### 0.0.19
 - adds `TargetingIdeaService`
 
