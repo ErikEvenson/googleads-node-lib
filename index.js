@@ -21,7 +21,7 @@ module.exports = {
   ExperimentService: null,
   ReportDefinitionService: null,
   TargetingIdeaService: require('./services/targetingIdeaService'),
-  TrafficEstimatorService: null,
+  TrafficEstimatorService: require('./services/TrafficEstimatorService'),
 
   // Account management
   CustomerService: null,
