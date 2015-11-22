@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.19
+- adds `TargetingIdeaService`
+
 ### 0.0.18
 - adds support for AWQL queries (see campaign service gulp example)
 
