@@ -257,6 +257,7 @@ service.mutateLinkSet(
 ### 0.0.21
 - updates soap module
 - adds soap event handling via `verbose`
+- adds `Paging` and `DateRange` types
 
 ### 0.0.20
 - adds `TrafficEstimatorService`

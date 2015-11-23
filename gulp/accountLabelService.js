@@ -25,8 +25,7 @@ gulp.task(
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
-      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
-      paging: {startIndex: 1, numberResults: 1},
+      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}]
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {
