@@ -23,7 +23,7 @@ function Service(options) {
     'Period'
   ];
 
-  self.xmlns = 'https://adwords.google.com/api/adwords/cm/v201506';
+  self.xmlns = 'https://adwords.google.com/api/adwords/cm/v201509';
   self.wsdlUrl = self.xmlns + '/BudgetService?wsdl';
 }
 
