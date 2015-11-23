@@ -13,7 +13,7 @@ var
 
       service.getClient(function(err, client) {
         if (err) return err;
-        console.log(JSON.stringify(client.describe(), null, 2));
+        console.log(JSON.stringify(service.description, null, 2));
       });
     }
   );

@@ -83,7 +83,6 @@ function Service(options) {
     'YouTubeVideoIdString'
   ];
 
-  self.selectorKey = 'serviceSelector';
   self.xmlns = 'https://adwords.google.com/api/adwords/cm/' + self.version;
   self.wsdlUrl = self.xmlns + '/AdGroupAdService?wsdl';
 }

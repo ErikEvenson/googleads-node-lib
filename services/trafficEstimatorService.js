@@ -11,7 +11,7 @@ function Service(options) {
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
-  self.rvalKey = 'campaignEstimates';
+  self.pageKey = 'campaignEstimates';
   self.selectable = null;
   self.xmlns = 'https://adwords.google.com/api/adwords/o/' + self.version;
   self.wsdlUrl = self.xmlns + '/TrafficEstimatorService?wsdl';

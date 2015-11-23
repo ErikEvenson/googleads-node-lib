@@ -5,7 +5,6 @@ var
 
 var Selector = Backbone.Model.extend({
   defaults: {
-    dateRange: new DateRange.model().toJSON(),
     paging: new Paging.model().toJSON()
   }
 });

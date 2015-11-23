@@ -77,7 +77,7 @@ function Service(options) {
       if (response.rval) {
         return {
           totalNumEntries: response.rval.totalNumEntries,
-          collection: new self.Collection(response.rval[self.rvalKey]),
+          collection: new self.Collection(response.rval[self.pageKey]),
           links: new self.ManagedCustomerLinkCollection(response.rval.links)
         };
       } else {
@@ -97,7 +97,6 @@ function Service(options) {
     'TestAccount'
   ];
 
-  self.selectorKey = 'serviceSelector';
   self.xmlns = 'https://adwords.google.com/api/adwords/mcm/' + self.version;
   self.wsdlUrl = self.xmlns + '/ManagedCustomerService?wsdl';
 }

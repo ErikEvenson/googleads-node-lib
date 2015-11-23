@@ -43,16 +43,23 @@ function AdWordsService(options) {
   self.name = '';
   self.namespace = 'ns1';
   self.operatorKey = 'operator';
-  self.rvalKey = 'entries';
-  self.selectorKey = 'selector';
+  self.pageKey = 'entries';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.validateOnly = self.options.validateOnly;
+  self.valueKey = 'value';
   self.verbose = self.options.verbose;
   self.version = 'v201509';
 
   self.formGetRequest = function(selector) {
     var request = {};
-    request[self.selectorKey] = selector.toJSON();
+    var getMethod = self.description[self.name][self.port].get;
+
+    if (_.keys(getMethod.input).indexOf('selector') > -1) {
+      request.selector = selector.toJSON();
+    } else if (_.keys(getMethod.input).indexOf('serviceSelector') > -1) {
+      request.serviceSelector = selector.toJSON();
+    }
+
     return request;
   };
 
@@ -86,6 +93,11 @@ function AdWordsService(options) {
               console.log('SOAP ERROR:\n', pd.xml(error), '\n');
             });
 
+            self.description = self.client.describe();
+            self.name = _.keys(self.description)[0];
+            self.port = _.keys(self.description[self.name])[0];
+            self.methods = _.keys(self.description[self.name][self.port]);
+
             cb(err, self.client);
           });
           return;
@@ -102,6 +114,10 @@ function AdWordsService(options) {
       self.getClient,
       // Request AdWords data...
       function(client, cb) {
+        if (self.methods.indexOf('get') == -1) {
+          return done(new Error('get method does not exist on ' + self.name));
+        }
+
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
@@ -130,6 +146,12 @@ function AdWordsService(options) {
       self.getClient,
       // Request AdWords data...
       function(client, cb) {
+        if (self.methods.indexOf('mutate') == -1) {
+          return done(
+            new Error('mutate method does not exist on ' + self.name)
+          );
+        }
+
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
@@ -200,7 +222,7 @@ function AdWordsService(options) {
       if (response.rval) {
         return {
           partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval.value)
+          collection: new self.Collection(response.rval[self.valueKey])
         };
       } else {
         return {};
@@ -218,7 +240,7 @@ function AdWordsService(options) {
       if (response.rval) {
         return {
           totalNumEntries: response.rval.totalNumEntries,
-          collection: new self.Collection(response.rval[self.rvalKey])
+          collection: new self.Collection(response.rval[self.pageKey])
         };
       } else {
         return {};
@@ -234,6 +256,12 @@ function AdWordsService(options) {
       self.getClient,
       // Request AdWords data...
       function(client, cb) {
+        if (self.methods.indexOf('query') == -1) {
+          return done(
+            new Error('query method does not exist on ' + self.name)
+          );
+        }
+
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );

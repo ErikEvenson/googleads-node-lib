@@ -40,7 +40,7 @@ gulp.task(
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
-      paging: {startIndex: 0, numberResults: 100},
+      paging: {startIndex: 0, numberResults: 100}
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {

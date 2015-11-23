@@ -12,9 +12,9 @@ function Service(options) {
   self.Collection = types.collection;
   self.Model = types.model;
   self.operatorKey = 'cm:operator';
-  self.rvalKey = 'labels';
+  self.pageKey = 'labels';
   self.selectable = ['LabelId', 'LabelName'];
-  self.selectorKey = 'selector';
+  self.valueKey = 'labels';
   self.xmlns = 'https://adwords.google.com/api/adwords/mcm/' + self.version;
   self.wsdlUrl = self.xmlns + '/AccountLabelService?wsdl';
 }
