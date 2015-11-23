@@ -7,6 +7,20 @@ var
   uuid = require('uuid');
 
 gulp.task(
+  'adWords:budgetService:describe',
+  'describe Google AdWords service',
+  function(cb) {
+    var AdWords = require('..');
+    var service = new AdWords.BudgetService();
+
+    service.getClient(function(err, client) {
+      if (err) return err;
+      console.log(JSON.stringify(client.describe(), null, 2));
+    });
+  }
+);
+
+gulp.task(
   'adWords:budgetService:get',
   'gets Google AdWords budgets',
   function(cb) {

@@ -6,6 +6,20 @@ var
   soap = require('soap');
 
 gulp.task(
+  'adWords:campaignCriterionService:describe',
+  'describe Google AdWords service',
+  function(cb) {
+    var AdWords = require('..');
+    var service = new AdWords.CampaignCriterionService();
+
+    service.getClient(function(err, client) {
+      if (err) return err;
+      console.log(JSON.stringify(client.describe(), null, 2));
+    });
+  }
+);
+
+gulp.task(
   'adWords:campaignCriterionService:get',
   'gets Google AdWords CampaignCriterion',
   function(cb) {

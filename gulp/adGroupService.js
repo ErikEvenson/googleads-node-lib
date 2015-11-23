@@ -6,6 +6,20 @@ var
   soap = require('soap');
 
 gulp.task(
+  'adWords:adGroupService:describe',
+  'describe Google AdWords service',
+  function(cb) {
+    var AdWords = require('..');
+    var service = new AdWords.AdGroupService();
+
+    service.getClient(function(err, client) {
+      if (err) return err;
+      console.log(JSON.stringify(client.describe(), null, 2));
+    });
+  }
+);
+
+gulp.task(
   'adWords:adGroupService:get',
   'gets Google AdWords adGroup',
   function(cb) {
