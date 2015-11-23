@@ -12,7 +12,7 @@ function Service(options) {
   self.Collection = types.collection;
   self.Model = types.model;
   self.selectable = null;
-  self.xmlns = 'https://adwords.google.com/api/adwords/o/v201509';
+  self.xmlns = 'https://adwords.google.com/api/adwords/o/' + self.version;
   self.wsdlUrl = self.xmlns + '/TargetingIdeaService?wsdl';
 }
 

@@ -48,6 +48,7 @@ function AdWordsService(options) {
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.validateOnly = self.options.validateOnly;
   self.verbose = self.options.verbose;
+  self.version = 'v201509';
 
   self.formGetRequest = function(selector) {
     var request = {};

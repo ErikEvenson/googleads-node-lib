@@ -78,7 +78,7 @@ function Service(options) {
   ];
 
   self.selectorKey = 'serviceSelector';
-  self.xmlns = 'https://adwords.google.com/api/adwords/cm/v201509';
+  self.xmlns = 'https://adwords.google.com/api/adwords/cm/' + self.version;
   self.wsdlUrl = self.xmlns + '/AdGroupCriterionService?wsdl';
 }
 
