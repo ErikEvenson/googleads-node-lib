@@ -2,6 +2,7 @@
 var
   _ = require('lodash'),
   async = require('async'),
+  pd = require('pretty-data').pd,
   request = require('request'),
   soap = require('soap');
 
@@ -19,7 +20,8 @@ function AdWordsService(options) {
     ADWORDS_REFRESH_TOKEN: process.env.ADWORDS_REFRESH_TOKEN,
     ADWORDS_SECRET: process.env.ADWORDS_SECRET,
     ADWORDS_USER_AGENT: process.env.ADWORDS_USER_AGENT,
-    validateOnly: false
+    validateOnly: false,
+    verbose: false
   });
 
   // check if all credentials are supplied
@@ -45,6 +47,8 @@ function AdWordsService(options) {
   self.selectorKey = 'selector';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.validateOnly = self.options.validateOnly;
+  self.verbose = self.options.verbose;
+  self.version = 'v201509';
 
   self.formGetRequest = function(selector) {
     var request = {};
@@ -53,7 +57,7 @@ function AdWordsService(options) {
   };
 
   self.getClient = function(done) {
-    async.series([
+    async.waterfall([
       // get an active access token...
       function(cb) {self.refresh(cb);},
       // create a SOAP client...
@@ -65,6 +69,23 @@ function AdWordsService(options) {
         } else {
           soap.createClient(self.wsdlUrl, function(err, client) {
             self.client = client;
+
+            self.client.on('request', function(request) {
+              if (self.verbose) {
+                console.log('REQUEST:\n', pd.xml(request), '\n');
+              }
+            });
+
+            self.client.on('response', function(response) {
+              if (self.verbose) {
+                console.log('RESPONSE:\n', pd.xml(response), '\n');
+              }
+            });
+
+            self.client.on('soapError', function(error) {
+              console.log('SOAP ERROR:\n', pd.xml(error), '\n');
+            });
+
             cb(err, self.client);
           });
           return;
@@ -268,6 +289,11 @@ function AdWordsService(options) {
 
   self.setValidateOnly = function(flag) {
     self.validateOnly = flag;
+    return self;
+  };
+
+  self.setVerbose = function(flag) {
+    self.verbose = flag;
     return self;
   };
 

@@ -6,6 +6,20 @@ var
   soap = require('soap');
 
 gulp.task(
+  'adWords:biddingStrategyService:describe',
+  'describe Google AdWords service',
+  function(cb) {
+    var AdWords = require('..');
+    var service = new AdWords.BiddingStrategyService();
+
+    service.getClient(function(err, client) {
+      if (err) return err;
+      console.log(JSON.stringify(client.describe(), null, 2));
+    });
+  }
+);
+
+gulp.task(
   'adWords:biddingStrategyService:get',
   'gets Google AdWords BiddingStrategy',
   function(cb) {
@@ -21,7 +35,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.BiddingStrategyService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,

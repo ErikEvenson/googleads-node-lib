@@ -1,6 +1,6 @@
 {
   "name": "googleads-node-lib",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "googleads-node-lib",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,6 @@
     "pretty-data": "0.40.0",
     "should": "7.1.1",
     "sinon": "1.17.2",
-    "soap": "0.10.3",
     "supertest": "1.1.0",
     "yargs": "3.29.0"
   },
@@ -46,7 +45,7 @@
     "debug": "2.2.0",
     "lodash": "3.10.1",
     "request": "2.65.0",
-    "soap": "0.10.3",
+    "soap": "0.11.0",
     "uuid": "2.0.1"
   }
 }

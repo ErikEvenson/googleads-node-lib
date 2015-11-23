@@ -98,7 +98,7 @@ function Service(options) {
   ];
 
   self.selectorKey = 'serviceSelector';
-  self.xmlns = 'https://adwords.google.com/api/adwords/mcm/v201506';
+  self.xmlns = 'https://adwords.google.com/api/adwords/mcm/' + self.version;
   self.wsdlUrl = self.xmlns + '/ManagedCustomerService?wsdl';
 }
 

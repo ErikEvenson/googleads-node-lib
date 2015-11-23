@@ -6,6 +6,20 @@ var
   soap = require('soap');
 
 gulp.task(
+  'adWords:managedCustomerService:describe',
+  'describe Google AdWords service',
+  function(cb) {
+    var AdWords = require('..');
+    var service = new AdWords.ManagedCustomerService();
+
+    service.getClient(function(err, client) {
+      if (err) return err;
+      console.log(JSON.stringify(client.describe(), null, 2));
+    });
+  }
+);
+
+gulp.task(
   'adWords:managedCustomerService:findByCustomerId',
   'gets Google AdWords managed customer accounts by customerId',
   function(cb) {
@@ -22,7 +36,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     service.findByCustomerId(
       argv.clientCustomerId,
@@ -52,13 +67,12 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
-      dateRange: {min: '19700101', max: '20380101'},
       fields: service.selectable,
       ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
-      paging: {startIndex: 0, numberResults: 100},
       predicates: []
     });
 
@@ -99,7 +113,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var operand = new service.Model({
       name: argv.name || null,
@@ -140,7 +155,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var operand = new service.ManagedCustomerLink({
       clientCustomerId: argv.clientCustomerId,

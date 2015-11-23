@@ -7,6 +7,20 @@ var
   uuid = require('uuid');
 
 gulp.task(
+  'adWords:trafficEstimatorService:describe',
+  'describe Google AdWords service',
+  function(cb) {
+    var AdWords = require('..');
+    var service = new AdWords.TrafficEstimatorService();
+
+    service.getClient(function(err, client) {
+      if (err) return err;
+      console.log(JSON.stringify(client.describe(), null, 2));
+    });
+  }
+);
+
+gulp.task(
   'adWords:trafficEstimatorService:get',
   'gets Google AdWords traffic estimates',
   function(cb) {
@@ -22,7 +36,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.TrafficEstimatorService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       campaignEstimateRequests: [

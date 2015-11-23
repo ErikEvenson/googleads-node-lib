@@ -2,11 +2,24 @@ var
   _ = require('lodash'),
   async = require('async'),
   gulp = require('gulp'),
-  pd = require('pretty-data').pd,
   soap = require('soap');
 
+  gulp.task(
+    'adWords:accountLabel:describe',
+    'describe Google AdWords service',
+    function(cb) {
+      var AdWords = require('..');
+      var service = new AdWords.AccountLabelService();
+
+      service.getClient(function(err, client) {
+        if (err) return err;
+        console.log(JSON.stringify(client.describe(), null, 2));
+      });
+    }
+  );
+
 gulp.task(
-  'adWords:accountLabelService:get',
+  'adWords:accountLabel:get',
   'gets Google AdWords account labels',
   function(cb) {
     var argv = require('yargs')
@@ -21,12 +34,12 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.AccountLabelService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
-      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
-      paging: {startIndex: 0, numberResults: 100},
+      ordering: [{field: 'Name', sortOrder: 'ASCENDING'}]
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {
@@ -38,7 +51,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabelService:mutateAdd',
+  'adWords:accountLabel:mutateAdd',
   'adds Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
@@ -72,7 +85,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabelService:mutateRemove',
+  'adWords:accountLabel:mutateRemove',
   'removes Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
@@ -106,7 +119,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabelService:mutateSet',
+  'adWords:accountLabel:mutateSet',
   'removes Google AdWords account label',
   function(cb) {
     var argv = require('yargs')

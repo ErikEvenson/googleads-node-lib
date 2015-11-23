@@ -20,7 +20,7 @@ function Service(options) {
     'Type'
   ];
 
-  self.xmlns = 'https://adwords.google.com/api/adwords/cm/v201506';
+  self.xmlns = 'https://adwords.google.com/api/adwords/cm/' + self.version;
   self.wsdlUrl = self.xmlns + '/BiddingStrategyService?wsdl';
 }
 
