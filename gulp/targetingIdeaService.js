@@ -22,7 +22,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.TargetingIdeaService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       searchParameters: [

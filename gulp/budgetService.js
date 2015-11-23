@@ -22,7 +22,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.BudgetService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
@@ -56,7 +57,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.BudgetService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var operand = new service.Model({
       name: argv.name,

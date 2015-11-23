@@ -254,6 +254,10 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.21
+- updates soap module
+- adds soap event handling via `verbose`
+
 ### 0.0.20
 - adds `TrafficEstimatorService`
 

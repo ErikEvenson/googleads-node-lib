@@ -22,7 +22,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     service.findByCustomerId(
       argv.clientCustomerId,
@@ -52,7 +53,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       dateRange: {min: '19700101', max: '20380101'},
@@ -99,7 +101,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var operand = new service.Model({
       name: argv.name || null,
@@ -140,7 +143,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.ManagedCustomerService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var operand = new service.ManagedCustomerLink({
       clientCustomerId: argv.clientCustomerId,

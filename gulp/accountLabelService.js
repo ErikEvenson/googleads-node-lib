@@ -2,7 +2,6 @@ var
   _ = require('lodash'),
   async = require('async'),
   gulp = require('gulp'),
-  pd = require('pretty-data').pd,
   soap = require('soap');
 
 gulp.task(
@@ -21,12 +20,13 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.AccountLabelService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
       ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
-      paging: {startIndex: 0, numberResults: 100},
+      paging: {startIndex: 1, numberResults: 1},
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {

@@ -22,7 +22,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.CampaignService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var selector = new AdWords.Selector.model({
       fields: service.selectable,
@@ -57,7 +58,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.CampaignService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     // This will only work on my account...
     var operand = new service.Model({
@@ -99,7 +101,8 @@ gulp.task(
     var AdWords = require('..');
 
     var service = new AdWords.CampaignService()
-      .setValidateOnly(argv.validateOnly);
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
 
     var query = 'SELECT Id, Name, Status ORDER BY Name';
 
