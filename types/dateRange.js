@@ -1,9 +1,11 @@
-var Backbone = require('backbone');
+var
+  Backbone = require('backbone'),
+  Gdate = require('./gdate');
 
 var DateRange = Backbone.Model.extend({
   defaults: {
-    min: '19700101',
-    max: '20380101'
+    min: new Gdate.model({year: 1970, month: 1, day: 1}).toJSON(),
+    max: new Gdate.model({year: 2038, month: 1, day: 1}).toJSON()
   }
 });
 

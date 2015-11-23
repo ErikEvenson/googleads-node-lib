@@ -4,6 +4,20 @@ var
   gulp = require('gulp'),
   soap = require('soap');
 
+  gulp.task(
+    'adWords:accountLabelService:describe',
+    'describe Google AdWords account labels service',
+    function(cb) {
+      var AdWords = require('..');
+      var service = new AdWords.AccountLabelService();
+
+      service.getClient(function(err, client) {
+        if (err) return err;
+        console.log(JSON.stringify(client.describe(), null, 2));
+      });
+    }
+  );
+
 gulp.task(
   'adWords:accountLabelService:get',
   'gets Google AdWords account labels',

@@ -57,7 +57,7 @@ function AdWordsService(options) {
   };
 
   self.getClient = function(done) {
-    async.series([
+    async.waterfall([
       // get an active access token...
       function(cb) {self.refresh(cb);},
       // create a SOAP client...
