@@ -14,7 +14,6 @@ function Service(options) {
   self.operatorKey = 'cm:operator';
   self.pageKey = 'labels';
   self.selectable = ['LabelId', 'LabelName'];
-  self.selectorKey = 'selector';
   self.valueKey = 'labels';
   self.xmlns = 'https://adwords.google.com/api/adwords/mcm/' + self.version;
   self.wsdlUrl = self.xmlns + '/AccountLabelService?wsdl';

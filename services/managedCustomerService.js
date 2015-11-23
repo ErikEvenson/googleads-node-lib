@@ -97,7 +97,6 @@ function Service(options) {
     'TestAccount'
   ];
 
-  self.selectorKey = 'serviceSelector';
   self.xmlns = 'https://adwords.google.com/api/adwords/mcm/' + self.version;
   self.wsdlUrl = self.xmlns + '/ManagedCustomerService?wsdl';
 }

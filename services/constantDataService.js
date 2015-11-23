@@ -60,7 +60,7 @@ function Service(options) {
             });
 
             var request = {};
-            request[self.selectorKey] = selector.toJSON();
+            request.selector = selector.toJSON();
 
             self.client.getProductBiddingCategoryData(request, cb);
             break;
@@ -111,7 +111,6 @@ function Service(options) {
   };
 
   self.selectable = [];
-  self.selectorKey = 'selector';
   self.xmlns = 'https://adwords.google.com/api/adwords/cm/' + self.version;
   self.wsdlUrl = self.xmlns + '/ConstantDataService?wsdl';
 }

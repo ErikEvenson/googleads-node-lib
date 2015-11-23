@@ -44,7 +44,6 @@ function AdWordsService(options) {
   self.namespace = 'ns1';
   self.operatorKey = 'operator';
   self.pageKey = 'entries';
-  self.selectorKey = 'selector';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.validateOnly = self.options.validateOnly;
   self.valueKey = 'value';
@@ -53,7 +52,14 @@ function AdWordsService(options) {
 
   self.formGetRequest = function(selector) {
     var request = {};
-    request[self.selectorKey] = selector.toJSON();
+    var getMethod = self.description[self.name][self.port].get;
+
+    if (_.keys(getMethod.input).indexOf('selector') > -1) {
+      request.selector = selector.toJSON();
+    } else if (_.keys(getMethod.input).indexOf('serviceSelector') > -1) {
+      request.serviceSelector = selector.toJSON();
+    }
+
     return request;
   };
 
