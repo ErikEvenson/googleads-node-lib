@@ -86,6 +86,11 @@ function AdWordsService(options) {
               console.log('SOAP ERROR:\n', pd.xml(error), '\n');
             });
 
+            self.description = self.client.describe();
+            self.name = _.keys(self.description)[0];
+            self.port = _.keys(self.description[self.name])[0];
+            self.methods = _.keys(self.description[self.name][self.port]);
+
             cb(err, self.client);
           });
           return;
@@ -102,6 +107,10 @@ function AdWordsService(options) {
       self.getClient,
       // Request AdWords data...
       function(client, cb) {
+        if (self.methods.indexOf('get') == -1) {
+          return done(new Error('get method does not exist on ' + self.name));
+        }
+
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
@@ -130,6 +139,12 @@ function AdWordsService(options) {
       self.getClient,
       // Request AdWords data...
       function(client, cb) {
+        if (self.methods.indexOf('mutate') == -1) {
+          return done(
+            new Error('mutate method does not exist on ' + self.name)
+          );
+        }
+
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
@@ -234,6 +249,12 @@ function AdWordsService(options) {
       self.getClient,
       // Request AdWords data...
       function(client, cb) {
+        if (self.methods.indexOf('query') == -1) {
+          return done(
+            new Error('query method does not exist on ' + self.name)
+          );
+        }
+
         self.client.addSoapHeader(
           self.soapHeader, self.name, self.namespace, self.xmlns
         );
