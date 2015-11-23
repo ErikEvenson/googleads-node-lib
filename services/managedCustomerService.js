@@ -77,7 +77,7 @@ function Service(options) {
       if (response.rval) {
         return {
           totalNumEntries: response.rval.totalNumEntries,
-          collection: new self.Collection(response.rval[self.rvalKey]),
+          collection: new self.Collection(response.rval[self.pageKey]),
           links: new self.ManagedCustomerLinkCollection(response.rval.links)
         };
       } else {

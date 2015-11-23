@@ -43,10 +43,11 @@ function AdWordsService(options) {
   self.name = '';
   self.namespace = 'ns1';
   self.operatorKey = 'operator';
-  self.rvalKey = 'entries';
+  self.pageKey = 'entries';
   self.selectorKey = 'selector';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.validateOnly = self.options.validateOnly;
+  self.valueKey = 'value';
   self.verbose = self.options.verbose;
   self.version = 'v201509';
 
@@ -215,7 +216,7 @@ function AdWordsService(options) {
       if (response.rval) {
         return {
           partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval.value)
+          collection: new self.Collection(response.rval[self.valueKey])
         };
       } else {
         return {};
@@ -233,7 +234,7 @@ function AdWordsService(options) {
       if (response.rval) {
         return {
           totalNumEntries: response.rval.totalNumEntries,
-          collection: new self.Collection(response.rval[self.rvalKey])
+          collection: new self.Collection(response.rval[self.pageKey])
         };
       } else {
         return {};

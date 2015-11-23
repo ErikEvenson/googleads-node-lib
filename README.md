@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.22
+- fixes some return values
+
 ### 0.0.21
 - updates soap module
 - adds soap event handling via `verbose`
