@@ -6,7 +6,7 @@ var
   soap = require('soap');
 
 gulp.task(
-  'adWords:adGroupCriterion:describe',
+  'adWords:adGroupCriterionService:describe',
   'describe Google AdWords service',
   function(cb) {
     var AdWords = require('..');
@@ -20,7 +20,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:adGroupCriterion:get',
+  'adWords:adGroupCriterionService:get',
   'gets Google AdWords adGroupCriterion',
   function(cb) {
     var argv = require('yargs')

@@ -5,7 +5,7 @@ var
   soap = require('soap');
 
   gulp.task(
-    'adWords:accountLabel:describe',
+    'adWords:accountLabelService:describe',
     'describe Google AdWords service',
     function(cb) {
       var AdWords = require('..');
@@ -19,7 +19,7 @@ var
   );
 
 gulp.task(
-  'adWords:accountLabel:get',
+  'adWords:accountLabelService:get',
   'gets Google AdWords account labels',
   function(cb) {
     var argv = require('yargs')
@@ -51,7 +51,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabel:addAccountLabel',
+  'adWords:accountLabelService:addAccountLabel',
   'adds Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
@@ -83,7 +83,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabel:removeAccountLabel',
+  'adWords:accountLabelService:removeAccountLabel',
   'removes Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
@@ -115,7 +115,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabel:setAccountLabel',
+  'adWords:accountLabelService:setAccountLabel',
   'sets Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
