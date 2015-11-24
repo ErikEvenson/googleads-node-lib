@@ -17,6 +17,10 @@ function Service(options) {
   self.valueKey = 'labels';
   self.xmlns = 'https://adwords.google.com/api/adwords/mcm/' + self.version;
   self.wsdlUrl = self.xmlns + '/AccountLabelService?wsdl';
+
+  self.addAccountLabel = function(clientCustomerId, name, cb) {
+    self.mutateAdd(clientCustomerId, new self.Model({name: name}), cb);
+  };
 }
 
 Service.prototype = _.create(AdWordsService.prototype, {

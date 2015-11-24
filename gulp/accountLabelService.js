@@ -51,7 +51,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabel:mutateAdd',
+  'adWords:accountLabel:addAccountLabel',
   'adds Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
@@ -70,11 +70,9 @@ gulp.task(
     var service = new AdWords.AccountLabelService()
       .setValidateOnly(argv.validateOnly);
 
-    var operand = new service.Model({name: argv.name,});
-
-    service.mutateAdd(
+    service.addAccountLabel(
       argv.clientCustomerId,
-      operand,
+      argv.name,
       function(err, results) {
         if (err) console.log(err);
         else console.log(JSON.stringify(results, null, 2));
