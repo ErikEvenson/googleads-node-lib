@@ -53,7 +53,7 @@ function Service(options) {
           new soap.BearerSecurity(self.credentials.access_token)
         );
 
-        self.client.getReportFields({reportType: 'KEYWORDS_PERFORMANCE_REPORT'}, cb)
+        self.client.getReportFields({reportType: options.reportType}, cb)
       }
     ],
     function(err, response) {

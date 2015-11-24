@@ -89,8 +89,7 @@ gulp.task(
       .setVerbose(true);
 
     var options = {
-      countryCode: argv.countryCode,
-      type: argv.type
+      reportType: argv.reportType
     };
 
     service.getReportFields(options, function(err, results) {
