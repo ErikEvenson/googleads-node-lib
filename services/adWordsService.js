@@ -43,10 +43,8 @@ function AdWordsService(options) {
   self.name = '';
   self.namespace = 'ns1';
   self.operatorKey = 'operator';
-  self.pageKey = 'entries';
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.validateOnly = self.options.validateOnly;
-  self.valueKey = 'value';
   self.verbose = self.options.verbose;
   self.version = 'v201509';
 
@@ -91,7 +89,7 @@ function AdWordsService(options) {
             });
 
             self.client.on('soapError', function(error) {
-              console.log('SOAP ERROR:\n', pd.xml(error), '\n');
+              console.log('SOAP ERROR:\n', pd.xml(error.body), '\n');
             });
 
             // grab some metadata out of the WSDL
@@ -133,13 +131,13 @@ function AdWordsService(options) {
       }
     ],
     function(err, response) {
-      return done(err, self.parsePage(response));
+      return done(err, self.parseGetResponse(response));
     });
   };
 
   self.mutate = function(options, done) {
     _.defaults(options, {
-      parseMethod: self.parseMutateRval
+      parseMethod: self.parseMutateResponse
     });
 
     self.soapHeader.RequestHeader.clientCustomerId = options.clientCustomerId;
@@ -215,40 +213,16 @@ function AdWordsService(options) {
     self.mutate(options, done);
   };
 
-  self.parseMutateRval = function(response) {
-    if (self.validateOnly) {
-      return {
-        partialFailureErrors: null,
-        collection: new self.Collection([])
-      };
-    } else {
-      if (response.rval) {
-        return {
-          partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval[self.valueKey])
-        };
-      } else {
-        return {};
-      }
-    }
+  self.parseMutateResponse = function(response) {
+    throw new Error('parse mutate response not configured');
   };
 
-  self.parsePage = function(response) {
-    if (self.validateOnly) {
-      return {
-        totalNumEntries: null,
-        collection: null
-      };
-    } else {
-      if (response.rval) {
-        return {
-          totalNumEntries: response.rval.totalNumEntries,
-          collection: new self.Collection(response.rval[self.pageKey])
-        };
-      } else {
-        return {};
-      }
-    }
+  self.parseGetResponse = function(response) {
+    throw new Error('parse get response not configured');
+  };
+
+  self.parseQueryResponse = function(response) {
+    throw new Error('parse query response not configured');
   };
 
   self.query = function(clientCustomerId, query, done) {
@@ -277,7 +251,7 @@ function AdWordsService(options) {
       }
     ],
     function(err, response) {
-      return done(err, self.parsePage(response));
+      return done(err, self.parseQueryResponse(response));
     });
   };
 

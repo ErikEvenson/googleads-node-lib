@@ -14,8 +14,9 @@ gulp.task(
     var service = new AdWords.TrafficEstimatorService();
 
     service.getClient(function(err, client) {
-      if (err) return err;
-      console.log(JSON.stringify(client.describe(), null, 2));
+      if (err) return cb(err);
+      console.log(JSON.stringify(service.description, null, 2));
+      return cb(err);
     });
   }
 );
@@ -60,9 +61,9 @@ gulp.task(
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {
-      if (err) console.log(err);
+      if (err) return cb(err);
       else console.log(JSON.stringify(results, null, 2));
-      cb(err);
+      return cb(err);
     });
   }
 );

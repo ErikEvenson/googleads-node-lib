@@ -37,7 +37,8 @@ function Service(options) {
     var options = {
       clientCustomerId: clientCustomerId,
       mutateMethod: 'mutateLink',
-      operations: [operation]
+      operations: [operation],
+      parseMethod: self.parseMutateLinkResponse
     };
 
     self.mutate(options, done);
@@ -48,17 +49,22 @@ function Service(options) {
   self.mutateRemove = null;
   self.mutateSet = null;
 
-  self.parseMutateLinkRval = function(response) {
-    if (self.options.validateOnly) {
+  self.parseGetResponse = function(response) {
+    if (self.validateOnly) {
       return {
-        partialFailureErrors: null,
-        collection: new self.Collection([])
+        entries: null,
+        links: null,
+        'Page.Type': null,
+        totalNumEntries: null
+
       };
     } else {
       if (response.rval) {
         return {
-          partialFailureErrors: response.rval.partialFailureErrors,
-          collection: new self.Collection(response.rval.links)
+          entries: new self.Collection(response.rval.entries),
+          links: new self.Collection(response.rval.links),
+          'Page.Type': response.rval['Page.Type'],
+          totalNumEntries: response.rval.totalNumEntries
         };
       } else {
         return {};
@@ -66,19 +72,31 @@ function Service(options) {
     }
   };
 
-  self.parsePage = function(response) {
-    if (self.options.validateOnly) {
+  self.parseMutateResponse = function(response) {
+    if (self.validateOnly) {
       return {
-        totalNumEntries: null,
-        collection: null,
+        value: null
+      };
+    } else {
+      if (response.rval) {
+        return {
+          value: new self.Collection(response.rval.value)
+        };
+      } else {
+        return {};
+      }
+    }
+  };
+
+  self.parseMutateLinkResponse = function(response) {
+    if (self.validateOnly) {
+      return {
         links: null
       };
     } else {
       if (response.rval) {
         return {
-          totalNumEntries: response.rval.totalNumEntries,
-          collection: new self.Collection(response.rval[self.pageKey]),
-          links: new self.ManagedCustomerLinkCollection(response.rval.links)
+          links: new self.Collection(response.rval.links)
         };
       } else {
         return {};
