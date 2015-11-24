@@ -60,7 +60,7 @@ var Service = new AdWords.ManagedCustomerService({
 Failure to provide credentials will cause the library to throw a configuration error.
 
 ## Using the library
-In addition to this growing collection of examples, you will find other examples in the gulp tasks.
+Here are some examples.  Documentation should improve, but in the mean time, the best place to look is in the [gulp](./gulp) directory under the various service types.  The gulp tasks use the library as your code would.
 
 ### AdGroupService
 Setting up the AdGroupService:
@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.23
+- bugfix
+
 ### 0.0.22
 - fixes some return values
 

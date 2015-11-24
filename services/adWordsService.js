@@ -77,6 +77,7 @@ function AdWordsService(options) {
           soap.createClient(self.wsdlUrl, function(err, client) {
             self.client = client;
 
+            // add some event handling on the client
             self.client.on('request', function(request) {
               if (self.verbose) {
                 console.log('REQUEST:\n', pd.xml(request), '\n');
@@ -93,11 +94,13 @@ function AdWordsService(options) {
               console.log('SOAP ERROR:\n', pd.xml(error), '\n');
             });
 
+            // grab some metadata out of the WSDL
             self.description = self.client.describe();
             self.name = _.keys(self.description)[0];
             self.port = _.keys(self.description[self.name])[0];
             self.methods = _.keys(self.description[self.name][self.port]);
 
+            // return the client or an error
             cb(err, self.client);
           });
           return;
