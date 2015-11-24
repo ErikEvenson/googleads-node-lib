@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.24
+- fixes missing dependency
+
 ### 0.0.23
 - bugfix
 
