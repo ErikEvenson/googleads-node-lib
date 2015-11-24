@@ -12,8 +12,9 @@ var
       var service = new AdWords.AccountLabelService();
 
       service.getClient(function(err, client) {
-        if (err) return err;
+        if (err) return cb(err);
         console.log(JSON.stringify(service.description, null, 2));
+        return cb(err);
       });
     }
   );
@@ -43,9 +44,9 @@ gulp.task(
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {
-      if (err) console.log(err);
+      if (err) return cb(err);
       else console.log(JSON.stringify(results, null, 2));
-      cb(err);
+      return cb(err);
     });
   }
 );
@@ -74,9 +75,9 @@ gulp.task(
       argv.clientCustomerId,
       argv.name,
       function(err, results) {
-        if (err) console.log(err);
+        if (err) return cb(err);
         else console.log(JSON.stringify(results, null, 2));
-        cb(err);
+        return cb(err);
       }
     );
   }
@@ -106,9 +107,9 @@ gulp.task(
       argv.clientCustomerId,
       argv.id,
       function(err, results) {
-        if (err) console.log(err);
+        if (err) return cb(err);
         else console.log(JSON.stringify(results, null, 2));
-        cb(err);
+        return cb(err);
       }
     );
   }
@@ -140,9 +141,9 @@ gulp.task(
       argv.id,
       argv.name,
       function(err, results) {
-        if (err) console.log(err);
+        if (err) return cb(err);
         else console.log(JSON.stringify(results, null, 2));
-        cb(err);
+        return cb(err);
       }
     );
   }

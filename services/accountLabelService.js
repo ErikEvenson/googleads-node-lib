@@ -29,6 +29,26 @@ function Service(options) {
   self.setAccountLabel = function(clientCustomerId, id, name, cb) {
     self.mutateSet(clientCustomerId, new self.Model({id: id, name: name}), cb);
   };
+
+  self.parseGetResponse = function(response) {
+    if (self.validateOnly) {
+      return {
+        labels: null
+      };
+    } else {
+      if (response.rval) {
+        return {
+          labels: new self.Collection(response.rval.labels),
+        };
+      } else {
+        return {};
+      }
+    }
+  };
+
+  self.parseMutateResponse = function(response) {
+    return self.parseGetResponse(response);
+  };
 }
 
 Service.prototype = _.create(AdWordsService.prototype, {

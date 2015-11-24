@@ -14,8 +14,9 @@ gulp.task(
     var service = new AdWords.CampaignService();
 
     service.getClient(function(err, client) {
-      if (err) return err;
-      console.log(JSON.stringify(client.describe(), null, 2));
+      if (err) return cb(err);
+      console.log(JSON.stringify(service.description, null, 2));
+      return cb(err);
     });
   }
 );
@@ -46,9 +47,9 @@ gulp.task(
     });
 
     service.get(argv.clientCustomerId, selector, function(err, results) {
-      if (err) console.log(err);
+      if (err) return cb(err);
       else console.log(JSON.stringify(results, null, 2));
-      cb(err);
+      return cb(err);
     });
   }
 );
@@ -91,9 +92,9 @@ gulp.task(
       argv.clientCustomerId,
       operand,
       function(err, results) {
-        if (err) console.log(err);
+        if (err) return cb(err);
         else console.log(JSON.stringify(results, null, 2));
-        cb(err);
+        return cb(err);
       }
     );
   }
@@ -121,9 +122,9 @@ gulp.task(
     var query = 'SELECT Id, Name, Status ORDER BY Name';
 
     service.query(argv.clientCustomerId, query, function(err, results) {
-      if (err) console.log(err);
+      if (err) return cb(err);
       else console.log(JSON.stringify(results, null, 2));
-      cb(err);
+      return cb(err);
     });
   }
 );

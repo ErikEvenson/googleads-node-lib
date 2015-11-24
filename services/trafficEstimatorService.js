@@ -11,7 +11,23 @@ function Service(options) {
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
-  self.pageKey = 'campaignEstimates';
+
+  self.parseGetResponse = function(response) {
+    if (self.validateOnly) {
+      return {
+        campaignEstimates: null
+      };
+    } else {
+      if (response.rval) {
+        return {
+          campaignEstimates: new self.Collection(response.rval.campaignEstimates)
+        };
+      } else {
+        return {};
+      }
+    }
+  };
+
   self.selectable = null;
   self.xmlns = 'https://adwords.google.com/api/adwords/o/' + self.version;
   self.wsdlUrl = self.xmlns + '/TrafficEstimatorService?wsdl';
