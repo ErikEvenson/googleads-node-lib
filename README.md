@@ -1,7 +1,5 @@
 # An unofficial node library for Google AdWords
-
-[![Join the chat at https://gitter.im/ErikEvenson/googleads-node-lib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ErikEvenson/googleads-node-lib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-**Under development!**  Use with caution.
+[![Join the chat at https://gitter.im/ErikEvenson/googleads-node-lib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ErikEvenson/googleads-node-lib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) **Under development!**  Use with caution.
 
 ## Installing the library
 
@@ -256,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.26
+- adds `ReportDefinitionService`
+
 ### 0.0.25
 - adds convenience functions to `AccountLabelService`
 - adds `upgradeUrl` to `AdGroupAdService`

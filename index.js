@@ -19,7 +19,7 @@ module.exports = {
 
   // Optimization
   ExperimentService: null,
-  ReportDefinitionService: null,
+  ReportDefinitionService: require('./services/reportDefinitionService'),
   TargetingIdeaService: require('./services/targetingIdeaService'),
   TrafficEstimatorService: require('./services/trafficEstimatorService'),
 
