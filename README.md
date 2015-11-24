@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.27
+- adds reports
+
 ### 0.0.26
 - adds `ReportDefinitionService`
 
