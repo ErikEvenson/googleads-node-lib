@@ -255,7 +255,7 @@ service.mutateLinkSet(
 
 ## Changelog
 ### 0.0.23
-- TBD
+- bugfix
 
 ### 0.0.22
 - fixes some return values
