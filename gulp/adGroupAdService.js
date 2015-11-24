@@ -51,3 +51,46 @@ gulp.task(
     });
   }
 );
+
+gulp.task(
+  'adWords:adGroupAdService:upgradeUrl',
+  'upgrades URL for Google AdWords ads',
+  function(cb) {
+    var argv = require('yargs')
+      .boolean('validateOnly')
+      .default(
+        'clientCustomerId',
+        process.env.ADWORDS_CLIENT_CUSTOMER_ID,
+        'clientCustomerId of account'
+      )
+      .default('validateOnly', false, 'validate only')
+      .demand('finalUrl', 'final URL to use')
+      .demand('adId', 'adId to use')
+      .argv;
+
+    var AdWords = require('..');
+
+    var service = new AdWords.AdGroupAdService()
+      .setValidateOnly(argv.validateOnly)
+      .setVerbose(true);
+
+    var adUrlUpgrade = new service.AdUrlUpgrade({
+      adId: argv.adId,
+      finalUrl: argv.finalUrl
+    });
+
+    var options = {
+      clientCustomerId: argv.clientCustomerId,
+      operations: [adUrlUpgrade.toJSON()]
+    };
+
+    service.upgradeUrl(
+      options,
+      function(err, results) {
+        if (err) return cb(err);
+        else console.log(JSON.stringify(results, null, 2));
+        return cb(err);
+      }
+    );
+  }
+);

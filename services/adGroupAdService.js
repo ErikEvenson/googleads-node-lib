@@ -5,12 +5,15 @@ var
 
 var AdWordsService = require('./adWordsService');
 var types = require('../types/adGroupAd');
+var adUrlUpgrades = require('../types/adUrlUpgrade');
 
 function Service(options) {
   var self = this;
   AdWordsService.call(self, options);
   self.Collection = types.collection;
   self.Model = types.model;
+  self.AdUrlUpgradeCollection = adUrlUpgrades.collection;
+  self.AdUrlUpgrade = adUrlUpgrades.model;
 
   self.parseGetResponse = function(response) {
     if (self.validateOnly) {
@@ -48,6 +51,22 @@ function Service(options) {
 
   self.parseQueryResponse = function(response) {
     return self.parseGetResponse(response);
+  };
+
+  self.parseUpgradeUrlResponse = function(response) {
+    if (self.validateOnly) {
+      return {
+        rval: null
+      };
+    } else {
+      if (response.rval) {
+        return {
+          rval: new self.Collection(response.rval)
+        };
+      } else {
+        return {};
+      }
+    }
   };
 
   self.selectable = [
@@ -120,6 +139,30 @@ function Service(options) {
     'Width',
     'YouTubeVideoIdString'
   ];
+
+  self.upgradeUrl = function(options, done) {
+    self.soapHeader.RequestHeader.clientCustomerId = options.clientCustomerId;
+
+    async.waterfall([
+      // get client
+      self.getClient,
+      // Request AdWords data...
+      function(client, cb) {
+        self.client.addSoapHeader(
+          self.soapHeader, self.name, self.namespace, self.xmlns
+        );
+
+        self.client.setSecurity(
+          new soap.BearerSecurity(self.credentials.access_token)
+        );
+
+        self.client.upgradeUrl({operations: options.operations}, cb);
+      }
+    ],
+    function(err, response) {
+      return done(err, self.parseUpgradeUrlResponse(response));
+    });
+  };
 
   self.xmlns = 'https://adwords.google.com/api/adwords/cm/' + self.version;
   self.wsdlUrl = self.xmlns + '/AdGroupAdService?wsdl';

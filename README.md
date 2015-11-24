@@ -256,6 +256,7 @@ service.mutateLinkSet(
 ## Changelog
 ### 0.0.25
 - adds convenience functions to `AccountLabelService`
+- adds `upgradeUrl` to `AdGroupAdService`
 
 ### 0.0.24
 - fixes missing dependency
