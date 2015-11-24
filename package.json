@@ -1,6 +1,6 @@
 {
   "name": "googleads-node-lib",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "googleads-node-lib",
   "main": "index.js",
   "scripts": {
