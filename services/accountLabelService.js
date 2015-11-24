@@ -21,6 +21,14 @@ function Service(options) {
   self.addAccountLabel = function(clientCustomerId, name, cb) {
     self.mutateAdd(clientCustomerId, new self.Model({name: name}), cb);
   };
+
+  self.removeAccountLabel = function(clientCustomerId, id, cb) {
+    self.mutateRemove(clientCustomerId, new self.Model({id: id}), cb);
+  };
+
+  self.setAccountLabel = function(clientCustomerId, id, name, cb) {
+    self.mutateSet(clientCustomerId, new self.Model({id: id, name: name}), cb);
+  };
 }
 
 Service.prototype = _.create(AdWordsService.prototype, {

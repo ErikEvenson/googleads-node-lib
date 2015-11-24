@@ -83,7 +83,7 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabel:mutateRemove',
+  'adWords:accountLabel:removeAccountLabel',
   'removes Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
@@ -102,11 +102,9 @@ gulp.task(
     var service = new AdWords.AccountLabelService()
       .setValidateOnly(argv.validateOnly);
 
-    var operand = new service.Model({id: argv.id,});
-
-    service.mutateRemove(
+    service.removeAccountLabel(
       argv.clientCustomerId,
-      operand,
+      argv.id,
       function(err, results) {
         if (err) console.log(err);
         else console.log(JSON.stringify(results, null, 2));
@@ -117,8 +115,8 @@ gulp.task(
 );
 
 gulp.task(
-  'adWords:accountLabel:mutateSet',
-  'removes Google AdWords account label',
+  'adWords:accountLabel:setAccountLabel',
+  'sets Google AdWords account label',
   function(cb) {
     var argv = require('yargs')
       .boolean('validateOnly')
@@ -137,14 +135,10 @@ gulp.task(
     var service = new AdWords.AccountLabelService()
       .setValidateOnly(argv.validateOnly);
 
-    var operand = new service.Model({
-      id: argv.id,
-      name: argv.name
-    });
-
-    service.mutateSet(
+    service.setAccountLabel(
       argv.clientCustomerId,
-      operand,
+      argv.id,
+      argv.name,
       function(err, results) {
         if (err) console.log(err);
         else console.log(JSON.stringify(results, null, 2));

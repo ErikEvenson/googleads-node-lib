@@ -255,7 +255,7 @@ service.mutateLinkSet(
 
 ## Changelog
 ### 0.0.25
-- adds `addAccountLabel` to `AccountLabelService`
+- adds convenience functions to `AccountLabelService`
 
 ### 0.0.24
 - fixes missing dependency
