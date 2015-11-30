@@ -3,8 +3,7 @@ var
   async = require('async'),
   gulp = require('gulp'),
   parseString = require('xml2js').parseString,
-  pd = require('pretty-data').pd,
-  soap = require('soap');
+  pd = require('pretty-data').pd;
 
 gulp.task(
   'adWords:accountPerformanceReport',
@@ -21,34 +20,20 @@ gulp.task(
     var AdWords = require('..');
     var report = new AdWords.AccountPerformanceReport();
 
-    report.getReportFields(function(err, results) {
+    var options = {
+      clientCustomerId: argv.clientCustomerId,
+    };
+
+    report.getReport(options, function(err, incoming, response) {
       if (err) return cb(err);
+      console.log(pd.xml(response));
 
-      var fieldNames = results.rval.map(function(field) {
-        return field.get('fieldName');
-      });
+      // parseString(response, function (err, result) {
+      //   console.log(result.report.table[0].row[0]['$']);
+      //   cb();
+      // });
 
-      fieldNames = [
-        'AccountDescriptiveName'
-      ]
-
-      var options = {
-        clientCustomerId: argv.clientCustomerId,
-        // fieldNames: fieldNames,
-        // predicates: [
-        // ]
-      };
-
-      report.getReport(options, function(err, incoming, response) {
-        if (err) return cb(err);
-        console.log(pd.xml(response));
-
-        // parseString(response, function (err, result) {
-        //   console.log(result.report.table[0].row[0]['$']);
-        //   cb();
-        // });
-        // cb();
-      });
+      cb();
     });
   }
 );

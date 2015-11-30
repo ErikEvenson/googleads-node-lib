@@ -6,7 +6,7 @@ var
   pd = require('pretty-data').pd;
 
 gulp.task(
-  'adWords:adGroupPerformanceReport',
+  'adWords:campaignPerformanceReport',
   'Google AdWords reports',
   function(cb) {
     var argv = require('yargs')
@@ -18,7 +18,7 @@ gulp.task(
       .argv;
 
     var AdWords = require('..');
-    var report = new AdWords.AdGroupPerformanceReport();
+    var report = new AdWords.CampaignPerformanceReport();
 
     var options = {
       clientCustomerId: argv.clientCustomerId,
