@@ -2,6 +2,7 @@
 var
   _ = require('lodash'),
   async = require('async'),
+  builder = require('xmlbuilder'),
   request = require('request');
 
 var AdWordsObject = require('../adWordsObject');
@@ -10,6 +11,48 @@ var AdWordsObject = require('../adWordsObject');
 function AdWordsReport(options) {
   var self = this;
   AdWordsObject.call(self, options);
+
+  self.getRdxml = function(opts) {
+    _.defaults(opts, {
+      dateRangeType: 'CUSTOM_DATE',
+      dateMin: '19700101',
+      dateMax: '20380101',
+      downloadFormat: 'XML',
+      fieldNames: self.defaultFieldNames
+    });
+
+    var fields = _.map(options.fieldNames, function(fieldName) {
+      return {'#text': fieldName};
+    });
+
+    var reportRequest = {
+      reportDefinition: {
+        selector: {
+          fields: fields
+        },
+        reportName: self.reportName,
+        reportType: self.reportType,
+        dateRangeType: opts.dateRangeType,
+        downloadFormat: opts.downloadFormat
+      }
+    };
+
+    if (options.predicates) {
+      reportRequest.reportDefinition.selector.predicates = opts.predicates;
+    }
+
+    if (options.dateRangeType == 'CUSTOM_DATE') {
+      reportRequest.reportDefinition.selector.dateRange = {
+        min: opts.dateMin,
+        max: opts.dateMax
+      };
+    }
+
+    var xml = builder.create('root').ele(reportRequest);
+
+    // console.log(xml.toString({ pretty: true, indent: '  ', offset: 1, newline: '\n' }));
+    return xml.toString();
+  };
 
   self.reportUrl = 'https://adwords.google.com/api/adwords/reportdownload/' +
     self.version;
@@ -45,6 +88,50 @@ function AdWordsReport(options) {
     var service = new ReportDefinitionService();
     var options = {reportType: self.reportType};
     service.getReportFields(options, done);
+  };
+
+  self.getRdxml = function(options) {
+    _.defaults(options, {
+      dateRangeType: 'CUSTOM_DATE',
+      dateMin: '19700101',
+      dateMax: '20380101',
+      downloadFormat: 'XML',
+      fieldNames: [
+        'CampaignId'
+      ]
+    });
+
+    var fields = _.map(options.fieldNames, function(fieldName) {
+      return {'#text': fieldName};
+    });
+
+    var reportRequest = {
+      reportDefinition: {
+        selector: {
+          fields: fields
+        },
+        reportName: self.reportName,
+        reportType: self.reportType,
+        dateRangeType: options.dateRangeType,
+        downloadFormat: options.downloadFormat
+      }
+    };
+
+    if (options.predicates) {
+      reportRequest.reportDefinition.selector.predicates = options.predicates;
+    }
+
+    if (options.dateRangeType == 'CUSTOM_DATE') {
+      reportRequest.reportDefinition.selector.dateRange = {
+        min: options.dateMin,
+        max: options.dateMax
+      };
+    }
+
+    var xml = builder.create('root').ele(reportRequest);
+
+    // console.log(xml.toString({ pretty: true, indent: '  ', offset: 1, newline: '\n' }));
+    return xml.toString();
   };
 }
 

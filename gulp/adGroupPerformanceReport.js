@@ -37,7 +37,17 @@ gulp.task(
 
       var options = {
         clientCustomerId: argv.clientCustomerId,
-        fieldNames: fieldNames
+        fieldNames: fieldNames,
+        predicates: [
+          {
+            field: 'CampaignStatus',
+            operator: 'IN',
+            values: [
+              {'#text': 'ENABLED'},
+              {'#text': 'PAUSED'}
+            ]
+          }
+        ]
       };
 
       report.getReport(options, function(err, incoming, response) {
