@@ -15,6 +15,7 @@ Local:
 - [request]() 2.65.0 - Simplified HTTP request client.
 - [soap](https://www.npmjs.com/package/soap) 0.10.3 - A minimal node SOAP client.
 - [uuid](https://www.npmjs.com/package/uuid) 2.0.1 - Rigorous implementation of RFC4122 (v1 and v4) UUIDs.
+- [xmlbuilder](https://www.npmjs.com/package/xmlbuilder) 4.1.0 - An XML builder for node.js.
 
 Local (dev):
 - [chai](https://www.npmjs.com/package/chai) 3.4.0 - BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
