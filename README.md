@@ -254,6 +254,10 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.28
+- refactors
+- adds reports: `AccountPerformanceReport` and `AdGroupPerformanceReport`
+
 ### 0.0.27
 - adds reports
 

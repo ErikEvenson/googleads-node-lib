@@ -25,6 +25,7 @@ gulp.task(
   'gets Google AdWords report fields',
   function(cb) {
     var argv = require('yargs')
+      .boolean('fieldNames')
       .choices(
         'reportType',
         [
@@ -79,6 +80,7 @@ gulp.task(
         process.env.ADWORDS_CLIENT_CUSTOMER_ID,
         'clientCustomerId of account'
       )
+      .default('fieldNames', false, 'show field names only')
       .demand('reportType', 'report type')
       .argv;
 
@@ -89,13 +91,23 @@ gulp.task(
       .setVerbose(true);
 
     var options = {
-      countryCode: argv.countryCode,
-      type: argv.type
+      reportType: argv.reportType
     };
 
     service.getReportFields(options, function(err, results) {
       if (err) return cb(err);
-      else console.log(JSON.stringify(results, null, 2));
+      else {
+        if (argv.fieldNames) {
+          results = results.rval.map(function(result) {
+            return result.get('fieldName');
+          });
+
+          console.log(results);
+        } else {
+          console.log(JSON.stringify(results, null, 2));
+        }
+      }
+
       return cb(err);
     });
   }

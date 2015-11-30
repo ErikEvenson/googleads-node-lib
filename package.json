@@ -1,6 +1,6 @@
 {
   "name": "googleads-node-lib",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "googleads-node-lib",
   "main": "index.js",
   "scripts": {
@@ -46,6 +46,8 @@
     "pretty-data": "0.40.0",
     "request": "2.65.0",
     "soap": "0.11.0",
-    "uuid": "2.0.1"
+    "uuid": "2.0.1",
+    "xml2js": "0.4.15",
+    "xmlbuilder": "4.1.0"
   }
 }
