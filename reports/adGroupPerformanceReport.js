@@ -29,7 +29,7 @@ function Report(options) {
     '</reportDefinition>';
 
     return rdxml;
-  }
+  };
 }
 
 Report.prototype = _.create(AdWordsReport.prototype, {
