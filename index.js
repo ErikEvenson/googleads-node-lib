@@ -1,4 +1,7 @@
 module.exports = {
+  // Reports
+  AdGroupPerformanceReport: require('./reports/adGroupPerformanceReport'),
+
   // Campaign data management
   AdGroupAdService: require('./services/adGroupAdService'),
   AdGroupCriterionService: require('./services/adGroupCriterionService'),

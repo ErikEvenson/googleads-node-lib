@@ -18,7 +18,7 @@ gulp.task(
       .argv;
 
     var AdWords = require('..');
-    var service = new AdWords.ReportDefinitionService();
+    var report = new AdWords.AdGroupPerformanceReport();
 
     // need to add some convenience functions to form this xml
     var rdxml = '<reportDefinition xmlns="https://adwords.google.com/api/adwords/cm/v201509">' +
@@ -45,7 +45,7 @@ gulp.task(
       rdxml: rdxml
     };
 
-    service.getReport(options, function(err, incoming, response) {
+    report.getReport(options, function(err, incoming, response) {
       if (err) return cb(err);
       console.log(pd.xml(response));
     });
