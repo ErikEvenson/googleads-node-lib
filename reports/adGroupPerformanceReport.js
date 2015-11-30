@@ -3,39 +3,58 @@ var
   builder = require('xmlbuilder');
 
 var AdWordsReport = require('./adWordsReport');
-var reportType = 'ADGROUP_PERFORMANCE_REPORT';
 
 function Report(options) {
   var self = this;
+  self.reportName = 'Ad Group Performance Report';
+  self.reportType = 'ADGROUP_PERFORMANCE_REPORT';
+
   AdWordsReport.call(self, options);
 
-  self.getRdxml = function() {
-    var xml = builder.create('root').ele({
+  self.getRdxml = function(options) {
+    _.defaults(options, {
+      dateRangeType: 'CUSTOM_DATE',
+      downloadFormat: 'XML',
+      fieldNames: [
+        'CampaignId'
+      ],
+      predicates: [
+        {
+          field: 'CampaignStatus',
+          operator: 'IN',
+          values: [
+            {'#text': 'ENABLED'},
+            {'#text': 'PAUSED'}
+          ]
+        }
+      ]
+    });
+
+    var fields = _.map(options.fieldNames, function(fieldName) {
+      return {'#text': fieldName};
+    });
+
+    var reportRequest = {
       reportDefinition: {
         selector: {
-          fields: [
-            {'#text': 'CampaignId'},
-            {'#text': 'Impressions'},
-            {'#text': 'Clicks'},
-            {'#text': 'Cost'}
-          ],
-          predicates: [
-            {
-              field: 'CampaignStatus',
-              operator: 'IN',
-              values: [
-                {'#text': 'ENABLED'},
-                {'#text': 'PAUSED'}
-              ]
-            }
-          ]
+          fields: fields,
+          predicates: options.predicates
         },
-        reportName: 'Custom Adgroup Performance Report',
-        reportType: reportType,
-        dateRangeType: 'LAST_7_DAYS',
-        downloadFormat: 'XML'
+        reportName: self.reportName,
+        reportType: self.reportType,
+        dateRangeType: options.dateRangeType,
+        downloadFormat: options.downloadFormat
       }
-    });
+    };
+
+    if (options.dateRangeType == 'CUSTOM_DATE') {
+      reportRequest.reportDefinition.selector.dateRange = {
+        min: '20150201',
+        max: '20150301'
+      };
+    }
+
+    var xml = builder.create('root').ele(reportRequest);
 
     // console.log(xml.toString({ pretty: true, indent: '  ', offset: 1, newline: '\n' }));
     return xml.toString();

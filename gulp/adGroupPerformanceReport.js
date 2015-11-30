@@ -20,13 +20,31 @@ gulp.task(
     var AdWords = require('..');
     var report = new AdWords.AdGroupPerformanceReport();
 
-    var options = {
-      clientCustomerId: argv.clientCustomerId
-    };
-
-    report.getReport(options, function(err, incoming, response) {
+    report.getReportFields(function(err, results) {
       if (err) return cb(err);
-      console.log(pd.xml(response));
+
+      var fieldNames = results.rval.map(function(field) {
+        return field.get('fieldName');
+      });
+
+      fieldNames = [
+        'CampaignId',
+        'Impressions',
+        'Interactions',
+        'Clicks',
+        'Cost'
+      ]
+
+      var options = {
+        clientCustomerId: argv.clientCustomerId,
+        fieldNames: fieldNames
+      };
+
+      report.getReport(options, function(err, incoming, response) {
+        if (err) return cb(err);
+        console.log(pd.xml(response));
+        cb();
+      });
     });
   }
 );

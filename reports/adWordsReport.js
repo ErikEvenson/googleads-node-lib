@@ -20,7 +20,7 @@ function AdWordsReport(options) {
       self.refresh,
       // get report
       function(cb) {
-        var rdxml = self.getRdxml();
+        var rdxml = self.getRdxml(options);
 
         var opts = {
           body: '__rdxml=' + encodeURIComponent(rdxml),
@@ -38,6 +38,13 @@ function AdWordsReport(options) {
       }
     ],
     done);
+  };
+
+  self.getReportFields = function(done) {
+    var ReportDefinitionService = require('../services/reportDefinitionService');
+    var service = new ReportDefinitionService();
+    var options = {reportType: self.reportType};
+    service.getReportFields(options, done);
   };
 }
 
