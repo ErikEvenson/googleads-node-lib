@@ -96,9 +96,7 @@ function AdWordsReport(options) {
       dateMin: '19700101',
       dateMax: '20380101',
       downloadFormat: 'XML',
-      fieldNames: [
-        'CampaignId'
-      ]
+      fieldNames: self.defaultFieldNames
     });
 
     var fields = _.map(options.fieldNames, function(fieldName) {

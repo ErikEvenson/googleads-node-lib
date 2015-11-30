@@ -7,7 +7,7 @@ var
   soap = require('soap');
 
 gulp.task(
-  'adWords:adGroupPerformanceReport',
+  'adWords:accountPerformanceReport',
   'Google AdWords reports',
   function(cb) {
     var argv = require('yargs')
@@ -19,7 +19,7 @@ gulp.task(
       .argv;
 
     var AdWords = require('..');
-    var report = new AdWords.AdGroupPerformanceReport();
+    var report = new AdWords.AccountPerformanceReport();
 
     report.getReportFields(function(err, results) {
       if (err) return cb(err);
@@ -29,26 +29,14 @@ gulp.task(
       });
 
       fieldNames = [
-        'CampaignId',
-        'Impressions',
-        'Interactions',
-        'Clicks',
-        'Cost'
+        'AccountDescriptiveName'
       ]
 
       var options = {
         clientCustomerId: argv.clientCustomerId,
         // fieldNames: fieldNames,
-        predicates: [
-          {
-            field: 'CampaignStatus',
-            operator: 'IN',
-            values: [
-              {'#text': 'ENABLED'},
-              {'#text': 'PAUSED'}
-            ]
-          }
-        ]
+        // predicates: [
+        // ]
       };
 
       report.getReport(options, function(err, incoming, response) {

@@ -1,6 +1,6 @@
 module.exports = {
   // Reports
-  AccountPerformanceReport: null,
+  AccountPerformanceReport: require('./reports/accountPerformanceReport'),
   AdCustomizersFeedItemReport: null,
   AdGroupPerformanceReport: require('./reports/adGroupPerformanceReport'),
   AdPerformanceReport: null,
