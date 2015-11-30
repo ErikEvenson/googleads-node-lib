@@ -15,7 +15,7 @@ module.exports = {
   CampaignNegativeKeywordsPerformanceReport: null,
   CampaignNegativeLocationsReport: null,
   CampaignNegativePlacementsPerformanceReport: null,
-  CampaignPerformanceReport: null,
+  CampaignPerformanceReport: require('./reports/campaignPerformanceReport'),
   CampaignPlatformTargetReport: null,
   CampaignSharedSetReport: null,
   ClickPerformanceReport: null,
