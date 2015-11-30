@@ -1,8 +1,5 @@
 var
-  _ = require('lodash'),
-  async = require('async'),
-  request = require('request'),
-  soap = require('soap');
+  _ = require('lodash');
 
 var AdWordsReport = require('./adWordsReport');
 
