@@ -3,8 +3,7 @@ var
   _ = require('lodash'),
   async = require('async'),
   pd = require('pretty-data').pd,
-  request = require('request'),
-  soap = require('soap');
+  request = require('request');
 
 // define abstract AdWords report
 function AdWordsReport(options) {
@@ -40,6 +39,35 @@ function AdWordsReport(options) {
   self.tokenUrl = 'https://www.googleapis.com/oauth2/v3/token';
   self.verbose = self.options.verbose;
   self.version = 'v201509';
+
+  self.reportUrl = 'https://adwords.google.com/api/adwords/reportdownload/' +
+    self.version;
+
+  self.getReport = function(options, done) {
+    async.series([
+      // get credentials
+      self.refresh,
+      // get report
+      function(cb) {
+        var rdxml = self.getRdxml();
+
+        var opts = {
+          body: '__rdxml=' + encodeURIComponent(rdxml),
+          headers: {
+            Authorization: 'Bearer ' + self.credentials.access_token,
+            developerToken: self.options.ADWORDS_DEVELOPER_TOKEN,
+            clientCustomerId: options.clientCustomerId,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          method: 'POST',
+          url: self.reportUrl,
+        };
+
+        request(opts, done);
+      }
+    ],
+    done);
+  };
 
   self.refresh = function(done) {
     // check if current credentials haven't expired

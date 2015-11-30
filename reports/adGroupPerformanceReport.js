@@ -5,35 +5,34 @@ var
   soap = require('soap');
 
 var AdWordsReport = require('./adWordsReport');
-var reportUrl = 'https://adwords.google.com/api/adwords/reportdownload/v201509';
 
 function Report(options) {
   var self = this;
   AdWordsReport.call(self, options);
 
-  self.getReport = function(options, done) {
-    async.series([
-      // get credentials
-      self.refresh,
-      // get report
-      function(cb) {
-        var opts = {
-          body: '__rdxml=' + encodeURIComponent(options.rdxml),
-          headers: {
-            Authorization: 'Bearer ' + self.credentials.access_token,
-            developerToken: self.options.ADWORDS_DEVELOPER_TOKEN,
-            clientCustomerId: options.clientCustomerId,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          method: 'POST',
-          url: reportUrl,
-        };
+  self.getRdxml = function() {
+    // need to add some convenience functions to form this xml
+    var rdxml = '<reportDefinition xmlns="https://adwords.google.com/api/adwords/cm/v201509">' +
+      '<selector>' +
+        '<fields>CampaignId</fields>' +
+        '<fields>Impressions</fields>' +
+        '<fields>Clicks</fields>' +
+        '<fields>Cost</fields>' +
+        '<predicates>' +
+          '<field>CampaignStatus</field>' +
+          '<operator>IN</operator>' +
+          '<values>ENABLED</values>' +
+          '<values>PAUSED</values>' +
+        '</predicates>' +
+      '</selector>' +
+      '<reportName>Custom Adgroup Performance Report</reportName>' +
+      '<reportType>ADGROUP_PERFORMANCE_REPORT</reportType>' +
+      '<dateRangeType>LAST_7_DAYS</dateRangeType>' +
+      '<downloadFormat>XML</downloadFormat>' +
+    '</reportDefinition>';
 
-        request(opts, done);
-      }
-    ],
-    done);
-  };
+    return rdxml;
+  }
 }
 
 Report.prototype = _.create(AdWordsReport.prototype, {
