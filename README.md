@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.031
+- adds some integration tests for budgets.
+
 ### 0.0.30
 - adds first integration tests.  These tests require a Google AdWords test account.
 
