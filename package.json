@@ -1,6 +1,6 @@
 {
   "name": "googleads-node-lib",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "googleads-node-lib",
   "main": "index.js",
   "scripts": {
@@ -17,9 +17,10 @@
   },
   "homepage": "https://github.com/ErikEvenson/googleads-node-lib#readme",
   "devDependencies": {
-    "chai": "3.4.0",
+    "chai": "3.4.1",
     "del": "2.0.2",
     "dotenv": "1.2.0",
+    "expect": "1.13.0",
     "gulp": "3.9.0",
     "gulp-cached": "1.1.0",
     "gulp-gjslint": "0.1.5",

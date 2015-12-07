@@ -60,7 +60,7 @@ var Service = new AdWords.ManagedCustomerService({
 Failure to provide credentials will cause the library to throw a configuration error.
 
 ## Using the library
-Here are some examples.  Documentation should improve, but in the mean time, the best place to look is in the [gulp](./gulp) directory under the various service types.  The gulp tasks use the library as your code would.
+Here are some examples.  Documentation should improve, but in the mean time, the best places to look are the [integration tests](./tests/integration) and the [gulp tasks](./gulp).
 
 ### AdGroupService
 Setting up the AdGroupService:
@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.30
+- adds first integration tests.  These tests require a Google AdWords test account.
+
 ### 0.0.29
 - adds `CampaignPerformanceReport`
 
