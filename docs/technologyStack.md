@@ -22,6 +22,7 @@ Local (dev):
 - [chai](https://www.npmjs.com/package/chai) 3.4.1 - BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
 - [del](https://www.npmjs.com/package/del) 2.0.2
 - [dotenv](https://www.npmjs.com/package/dotenv) 1.2.0 - Loads environment variables from .env file
+- [expect](https://www.npmjs.com/package/expect) 1.13.0 - Write better assertions.
 - [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
 - [gulp-cached](https://www.npmjs.com/package/gulp-cached) 1.1.0 - A simple in-memory file cache for gulp
 - [gulp-gjslint](https://www.npmjs.com/package/gulp-gjslint) 0.1.5 - Gulp task for running gjslint, the Google Closure linter

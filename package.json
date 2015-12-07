@@ -20,6 +20,7 @@
     "chai": "3.4.1",
     "del": "2.0.2",
     "dotenv": "1.2.0",
+    "expect": "1.13.0",
     "gulp": "3.9.0",
     "gulp-cached": "1.1.0",
     "gulp-gjslint": "0.1.5",
