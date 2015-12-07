@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/ErikEvenson/googleads-node-lib#readme",
   "devDependencies": {
-    "chai": "3.4.0",
+    "chai": "3.4.1",
     "del": "2.0.2",
     "dotenv": "1.2.0",
     "gulp": "3.9.0",

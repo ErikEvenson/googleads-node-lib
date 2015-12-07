@@ -19,7 +19,7 @@ Local:
 - [xmlbuilder](https://www.npmjs.com/package/xmlbuilder) 4.1.0 - An XML builder for node.js.
 
 Local (dev):
-- [chai](https://www.npmjs.com/package/chai) 3.4.0 - BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
+- [chai](https://www.npmjs.com/package/chai) 3.4.1 - BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
 - [del](https://www.npmjs.com/package/del) 2.0.2
 - [dotenv](https://www.npmjs.com/package/dotenv) 1.2.0 - Loads environment variables from .env file
 - [gulp](https://www.npmjs.com/package/gulp) 3.9.0 - The streaming build system.
