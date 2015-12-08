@@ -12,6 +12,15 @@ function Service(options) {
   self.Collection = types.collection;
   self.Model = types.model;
 
+  self.mutateRemove = function(clientCustomerId, operand, done) {
+    // CampaignOperation does not support the REMOVE operator. To remove a
+    // campaign, set its status to REMOVED
+
+    operand.set('status', 'REMOVED');
+    self.mutateSet(clientCustomerId, operand, done);
+    return;
+  };
+
   self.parseGetResponse = function(response) {
     if (self.validateOnly) {
       return {
