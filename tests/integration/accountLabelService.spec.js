@@ -41,7 +41,7 @@ describe('AccountLabelService', function() {
         function(cb) {
           service.addAccountLabel(
             process.env.ADWORDS_CLIENT_CUSTOMER_ID,
-            uuid.v4(),
+            'T-' + uuid.v4(),
             function(err, results) {
               expect(err).toNotExist();
               expect(results.labels).toExist();
@@ -53,7 +53,7 @@ describe('AccountLabelService', function() {
         },
         // set account label
         function(cb) {
-          var labelName = 'TESTNAME';
+          var labelName = 'T-' + uuid.v4();
 
           service.setAccountLabel(
             process.env.ADWORDS_CLIENT_CUSTOMER_ID,

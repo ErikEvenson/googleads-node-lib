@@ -254,6 +254,9 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
+### 0.0.33
+- adds test options.
+
 ### 0.0.32
 - stubs out first unit test.
 

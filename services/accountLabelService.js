@@ -19,15 +19,21 @@ function Service(options) {
   self.wsdlUrl = self.xmlns + '/AccountLabelService?wsdl';
 
   self.addAccountLabel = function(clientCustomerId, name, cb) {
-    self.mutateAdd(clientCustomerId, new self.Model({name: name}), cb);
+    var label = new self.Model({name: name});
+    if (!label.isValid()) return cb(new Error(label.validationError));
+    self.mutateAdd(clientCustomerId, label, cb);
   };
 
   self.removeAccountLabel = function(clientCustomerId, id, cb) {
-    self.mutateRemove(clientCustomerId, new self.Model({id: id}), cb);
+    var label = new self.Model({id: id});
+    // if (!label.isValid()) return cb(new Error(label.validationError));
+    self.mutateRemove(clientCustomerId, label, cb);
   };
 
   self.setAccountLabel = function(clientCustomerId, id, name, cb) {
-    self.mutateSet(clientCustomerId, new self.Model({id: id, name: name}), cb);
+    var label = new self.Model({id: id, name: name});
+    if (!label.isValid()) return cb(new Error(label.validationError));
+    self.mutateSet(clientCustomerId, label, cb);
   };
 
   self.parseGetResponse = function(response) {
