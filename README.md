@@ -254,7 +254,10 @@ service.mutateLinkSet(
 ```
 
 ## Changelog
-### 0.031
+### 0.0.32
+- stubs out first unit test.
+
+### 0.0.31
 - adds some integration tests for budgets.
 
 ### 0.0.30
