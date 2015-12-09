@@ -50,7 +50,6 @@ describe('CampaignService', function() {
       var campaign = baseCampaign.clone();
       campaign.set('startDate', '20400101');
       expect(campaign.isValid()).toEqual(false);
-      console.log(campaign.validationError);
       // start date will also be after end date
       expect(campaign.validationError.length).toEqual(2);
     });
@@ -109,6 +108,22 @@ describe('CampaignService', function() {
         moment(now).subtract(1, 'months').format('YYYYMMDD')
       );
 
+      expect(campaign.isValid()).toEqual(false);
+      expect(campaign.validationError.length).toEqual(1);
+    });
+  });
+
+  describe('name', function() {
+    it('should have a name', function() {
+      var campaign = baseCampaign.clone();
+      campaign.unset('name');
+      expect(campaign.isValid()).toEqual(false);
+      expect(campaign.validationError.length).toEqual(1);
+    });
+
+    it('should not have forbidden characters', function() {
+      var campaign = baseCampaign.clone();
+      campaign.set('name', 'test \x00 name');
       expect(campaign.isValid()).toEqual(false);
       expect(campaign.validationError.length).toEqual(1);
     });
