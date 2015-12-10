@@ -112,7 +112,7 @@ describe('CampaignService', function() {
             process.env.ADWORDS_TEST_ACCOUNT_ID,
             budget,
             cb
-          )
+          );
         }
       ],
       function(err, results) {
