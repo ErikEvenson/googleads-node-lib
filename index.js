@@ -69,7 +69,7 @@ module.exports = {
   TrafficEstimatorService: require('./services/trafficEstimatorService'),
 
   // Account management
-  CustomerService: null,
+  CustomerService: require('./services/customerService'),
   CustomerSyncService: null,
   ManagedCustomerService: require('./services/managedCustomerService'),
 
