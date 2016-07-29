@@ -36,19 +36,19 @@ var Campaign = Backbone.Model.extend({
 
     // combined date
     if (attrs.startDate && attrs.endDate) {
-      if (parseInt(attrs.startDate) >= parseInt(attrs.endDate)) {
+      if (parseInt(attrs.startDate) > parseInt(attrs.endDate)) {
         validationErrors.push(new Error('start date must be before end date'));
       }
     }
 
     if (attrs.startDate && !attrs.endDate) {
-      if (parseInt(attrs.startDate) >= parseInt(now.format('YYYYMMDD'))) {
+      if (parseInt(attrs.startDate) > parseInt(now.format('YYYYMMDD'))) {
         validationErrors.push(new Error('start date must be before end date'));
       }
     }
 
     if (!attrs.startDate && attrs.endDate) {
-      if (parseInt(now.format('YYYYMMDD')) >= parseInt(attrs.endDate)) {
+      if (parseInt(now.format('YYYYMMDD')) > parseInt(attrs.endDate)) {
         validationErrors.push(new Error('end date must be after start date'));
       }
     }
