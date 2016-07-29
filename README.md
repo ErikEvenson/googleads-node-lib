@@ -175,11 +175,11 @@ Getting your campaigns:
 
 ```javascript
 var selector = new AdWords.Selector.model({
-  dateRange: {min: '19700101', max: '20380101'},
   fields: service.selectable,
+  predicates: [],
+  dateRange: {min: '19700101', max: '20380101'},
   ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
-  paging: {startIndex: 0, numberResults: 100},
-  predicates: []
+  paging: {startIndex: 0, numberResults: 100}
 });
 
 service.get(clientCustomerId, selector, function(err, results) {
@@ -201,11 +201,11 @@ Getting your managed customers:
 
 ```javascript
 var selector = new AdWords.Selector.model({
-  dateRange: {min: '19700101', max: '20380101'},
   fields: service.selectable,
+  predicates: [],
+  dateRange: {min: '19700101', max: '20380101'},
   ordering: [{field: 'Name', sortOrder: 'ASCENDING'}],
-  paging: {startIndex: 0, numberResults: 100},
-  predicates: []
+  paging: {startIndex: 0, numberResults: 100}
 });
 
 service.get(clientCustomerId, selector, function(err, results) {
