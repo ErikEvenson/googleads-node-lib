@@ -111,6 +111,14 @@ describe('CampaignService', function() {
       expect(campaign.isValid()).toEqual(false);
       expect(campaign.validationError.length).toEqual(1);
     });
+
+    it('may start and end on the same date', function() {
+      var campaign = baseCampaign.clone();
+
+      campaign.set('endDate', campaign.get('startDate'));
+
+      expect(campaign.isValid()).toEqual(true);
+    });
   });
 
   describe('name', function() {
