@@ -60,7 +60,6 @@ function Service(options) {
   };
 
   self.selectable = [
-    'ActiveViewCpmEnabled',
     'AdServingOptimizationStatus',
     'AdvertisingChannelSubType',
     'AdvertisingChannelType',
@@ -84,7 +83,6 @@ function Service(options) {
     'Labels',
     'Level',
     'Name',
-    'Period',
     'PricingMode',
     'RejectionReasons',
     'ServingStatus',
