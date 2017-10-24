@@ -58,7 +58,6 @@ function Service(options) {
     'BudgetStatus',
     'DeliveryMethod',
     'IsBudgetExplicitlyShared',
-    'Period'
   ];
 
   self.xmlns = 'https://adwords.google.com/api/adwords/cm/' + self.version;
