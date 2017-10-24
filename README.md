@@ -52,6 +52,7 @@ var Service = new AdWords.ManagedCustomerService({
   ADWORDS_REFRESH_TOKEN: 'your refresh token',
   ADWORDS_SECRET: 'your secret',
   ADWORDS_USER_AGENT: 'your user agent',
+  version: 'v201605',
 });
 ```
 
